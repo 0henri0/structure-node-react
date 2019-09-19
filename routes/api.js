@@ -6,6 +6,6 @@ const users = require('../app/controllers/users');
 
 /*routes */
 
-router.use('/user', users.index);
+router.get('/user', users.index);
 
 module.exports = router;
