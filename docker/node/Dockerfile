@@ -1,4 +1,10 @@
-FROM node:10
+FROM node:10.12.0-alpine
+
+#add bash
+
+RUN apk update
+RUN apk upgrade
+RUN apk add bash
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -10,6 +16,6 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 3000
+EXPOSE 8080
 
 CMD [ "node", "server.js" ]
