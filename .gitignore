@@ -1,6 +1,6 @@
 /client/node_modules
 /node_modules
-
+.env
 
 
 # dependencies
@@ -15,6 +15,7 @@
 /client/build
 
 # misc
+/client/.env
 /client/.DS_Store
 /client/.env.local
 /client/.env.development.local
