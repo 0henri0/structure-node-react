@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 /*controllers */
-const users = require('../app/controllers/users');
+const users = require('../app/controllers/admin/users');
 
 /*routes */
 

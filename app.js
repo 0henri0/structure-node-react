@@ -1,12 +1,17 @@
 'use strict';
 
+require('dotenv').config();
+
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const api = require('./routes/api');
+const config = require('./config/configure');
+const admin = require('./routes/admin');
+const web = require('./routes/web');
 const app = express();
+const mongoose = require('mongoose');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -18,9 +23,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api', api);
+mongoose.connect(config.db, { useNewUrlParser: true });
+mongoose.connection.on('error', function(err) {
+    console.log('Error connect to Database: ' + err);
+});
 
-app.use(function(req, res, next) {
+app.use('/admin', admin);
+// app.use('/', web);
+
+app.use(function (req, res, next) {
   const err = new Error('Not Found');
   err.status = 404;
   next(err);
@@ -35,5 +46,8 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+console.log(config.db);
+
 
 module.exports = app;
