@@ -25,16 +25,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 mongoose.connect(config.db, { useNewUrlParser: true });
 mongoose.connection.on('error', function(err) {
-    console.log('Error connect to Database: ' + err);
+  console.log('Error connect to Database: ' + err);
 });
 
 app.use('/admin', admin);
 // app.use('/', web);
 
 app.use(function (req, res, next) {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+  res.sendStatus(404);
 });
 // error handler
 app.use(function (err, req, res, next) {
@@ -46,8 +44,5 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-console.log(config.db);
-
 
 module.exports = app;
