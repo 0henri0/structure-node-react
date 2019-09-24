@@ -5,6 +5,7 @@ const UserSchema = Schema(
   {
     username: {
       type: String,
+      default: '',
       required: true,
     },
     email: {
@@ -16,17 +17,17 @@ const UserSchema = Schema(
       type: String,
       required: true,
     },
+    avatar: {
+      type: String,
+      default: '',
+    },
     deleted_at: {
+      default: '',
       type: Date,
-    },
-    created_at: {
-      type: Date,
-      default: Date.now,
-    },
-    updated_at: {
-      type: Date,
-      default: Date.now,
     }
+  },
+  {
+    timestamps: true,
   }
 )
 
