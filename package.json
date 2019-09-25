@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "eslint": "eslint --fix"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -14,7 +15,10 @@
     "http-errors": "~1.6.3",
     "mongoose": "^5.7.1",
     "morgan": "~1.9.1",
-    "nodemon": "^1.19.2",
     "pug": "2.0.0-beta11"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "nodemon": "^1.19.2"
   }
 }

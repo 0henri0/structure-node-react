@@ -1,6 +1,7 @@
 'use strict';
+
 const User = require('../../models/user');
-const { validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator');
 const { customMessageValidate } = require('../../support/helpers');
 
 exports.index = async function (req, res) {
