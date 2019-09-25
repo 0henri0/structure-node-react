@@ -1,33 +1,64 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const CommentPost = Schema(
+  {
+    body: {
+      type: String,
+      required: true
+    },
+    user: {
+      type: Schema.ObjectId,
+      ref: 'User'
+    },
+    deletedAt: {
+      type: Date,
+    }
+  },
+  {
+    timestamps: true
+  }
+)
+
+const RatePost = Schema(
+  {
+    rate: {
+      type: Number,
+    },
+    user: {
+      type: Schema.ObjectId,
+      ref: 'User'
+    }
+  }
+)
+
 const PostSchema = Schema(
   {
     title: {
       type: String,
-      default: '',
       required: true,
     },
     content: {
       type: String,
       required: true,
-      unique: true,
     },
-    rule: {
-      type: Number,
-      required: true,
-      default: 0,
+    user: {
+      type: Schema.ObjectId,
+      ref: 'User'
     },
-    password: {
-      type: String,
-      required: true,
+    comments: [CommentPost],
+    rates: [RatePost],
+    tags: [
+      {
+        type: Schema.ObjectId,
+        ref: 'Tag'
+      }
+    ],
+    category: {
+      type: Schema.ObjectId,
+      ref: 'Category'
     },
-    avatar: {
-      type: String,
-      default: '',
-    },
-    deleted_at: {
-      default: '',
+    deletedAt: {
       type: Date,
     }
   },

@@ -1,26 +1,36 @@
 'use strict';
 const User = require('../../models/user');
+const { validationResult } = require('express-validator/check');
+const { customMessageValidate } = require('../../support/helpers');
 
 exports.index = async function (req, res) {
   let users = await User.find({})
-  res.status(200).json(users);
+
+  return res.status(200).json(users);
 }
 
 exports.detail = async function (req, res) {
   let user = await User.findById(req.params.id);
-  res.status(200).json(user)
+
+  return res.status(200).json(user)
 }
 
 exports.store = async function (req, res) {
+  const errors = validationResult(req);
 
-  const { username, email, password } = req.body;
+  if (errors.array().length) {
+    return res.status(422).json(customMessageValidate(errors));
+  }
+  const { email } = req.body;
   let user = await User.find({ email });
 
-  if (!user) {
-    res.status(422).json({ msg: 'The user already exists.' })
+  if (user.length) {
+
+    return res.status(422).json({ msg: 'The user already exists.' })
   }
-  user = new User({ username, email, password });
+  user = new User(req.body);
   user.save();
+
   return res.status(200).json({ data: { user } })
 }
 
@@ -32,3 +42,4 @@ exports.update = async function (req, res) {
 
   return res.status(200).json({ data: { user } })
 }
+
