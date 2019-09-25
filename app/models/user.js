@@ -13,6 +13,11 @@ const UserSchema = Schema(
       required: true,
       unique: true,
     },
+    rule: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
     password: {
       type: String,
       required: true,
