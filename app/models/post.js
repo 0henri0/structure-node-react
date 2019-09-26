@@ -18,7 +18,7 @@ const CommentPost = Schema(
   {
     timestamps: true
   }
-)
+);
 
 const RatePost = Schema(
   {
@@ -30,13 +30,17 @@ const RatePost = Schema(
       ref: 'User'
     }
   }
-)
+);
 
 const PostSchema = Schema(
   {
     title: {
       type: String,
       required: true,
+    },
+    image_title: {
+      type: String,
+      default: ''
     },
     content: {
       type: String,
@@ -60,11 +64,15 @@ const PostSchema = Schema(
     },
     deletedAt: {
       type: Date,
+    },
+    draft: {
+      type: Boolean,
+      default: 0
     }
   },
   {
     timestamps: true,
   }
-)
+);
 
 module.exports = mongoose.model('Post', PostSchema);

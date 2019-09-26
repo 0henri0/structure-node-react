@@ -8,8 +8,8 @@ let checkUserName = () => {
     .isEmpty()
     .withMessage('username must be required.')
     .isLength({ min: 3, max: 20 })
-    .withMessage('min 3 max 20.')
-}
+    .withMessage('min 3 max 20.');
+};
 
 let checkEmail = () => {
   return check('email')
@@ -26,8 +26,8 @@ let checkEmail = () => {
       if (user.length) {
         throw new Error('email_already_exist');
       }
-    })
-}
+    });
+};
 
 let checkPassword = () => {
   return check('password')
@@ -35,11 +35,11 @@ let checkPassword = () => {
     .isEmpty()
     .withMessage('password must be required')
     .isLength({ min: 6, max: 20 })
-    .withMessage('password length must be min 6 max 20.')
-}
+    .withMessage('password length must be min 6 max 20.');
+};
 
 module.exports = {
   checkUserName,
   checkEmail,
   checkPassword
-}
+};

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon server.js",
-    "eslint": "eslint --fix"
+    "eslint": "eslint ./ --fix"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
+    "eslint": "^6.4.0",
     "nodemon": "^1.19.2"
   }
 }

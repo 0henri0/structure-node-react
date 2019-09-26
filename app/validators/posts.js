@@ -1,5 +1,5 @@
-const { checkTitleCreate, checkContentCreate } = require('./actions/createPost');
-const { checkTitleEdit, checkContentEdit } = require('./actions/editPost');
+const { checkTitleCreate, checkContentCreate } = require('./actions/post/createPost');
+const { checkTitleEdit, checkContentEdit } = require('./actions/post/editPost');
 
 exports.validate = (type) => {
   switch (type) {
@@ -10,4 +10,4 @@ exports.validate = (type) => {
       return [checkTitleEdit(), checkContentEdit()]
     }
   }
-}
+};

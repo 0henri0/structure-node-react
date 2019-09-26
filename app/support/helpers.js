@@ -14,4 +14,8 @@ exports.customMessageValidate = (errors) => {
   }
 
   return customErrors;
-}
+};
+
+exports.updateImage = () => {
+
+};

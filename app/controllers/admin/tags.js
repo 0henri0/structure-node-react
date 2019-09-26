@@ -1,25 +1,14 @@
 'use strict';
 
-const Post = require('../../models/post');
+const Tag = require('../../models/tag');
 const { validationResult } = require('express-validator');
 const { customMessageValidate } = require('../../support/helpers');
 
 exports.index = async function (req, res) {
   try {
-    let posts = await Post.find({});
+    let tags = await Tag.find({});
 
-    return res.status(200).json(posts);
-  } catch (err) {
-
-    return res.status(500).json(err);
-  }
-};
-
-exports.detail = async function (req, res) {
-  try {
-    let post = await Post.findById(req.params.id);
-
-    return res.status(200).json(post);
+    return res.status(200).json(tags);
   } catch (err) {
 
     return res.status(500).json(err);
@@ -30,14 +19,18 @@ exports.store = async function (req, res) {
   const errors = validationResult(req);
 
   if (errors.array().length) {
-
     return res.status(422).json(customMessageValidate(errors));
   }
 
-  let post = new Post(req.body);
-  post.save();
+  try {
+    let tag = new Tag(req.body);
+    tag.save();
 
-  return res.status(200).json({ data: { post } });
+    return res.status(200).json({ data: { tag } });
+  } catch (err) {
+
+    return res.status(500).json(err);
+  }
 };
 
 exports.update = async function (req, res) {
@@ -48,10 +41,10 @@ exports.update = async function (req, res) {
   }
 
   try {
-    let params = req.body;
-    await Post.findByIdAndUpdate(req.params.id, { $set: params });
+    let { name } = req.body;
+    await Tag.findByIdAndUpdate(req.params.id, { $set: { name } });
 
-    return res.status(200).json({ data: params, msg: 'update success!' });
+    return res.status(200).json({ msg: 'update success!' });
   } catch (err) {
     return res.status(500).json(err);
   }
@@ -59,11 +52,11 @@ exports.update = async function (req, res) {
 
 exports.delete = async function (req, res) {
   try {
-    let post = await Post.findByIdAndDelete(req.params.id);
 
-    return res.status(200).json({ data: post, msg: 'delete success!' });
+    return res.status(200).json({ msg: 'delete success!' });
   } catch (err) {
     return res.status(500).json(err);
   }
 };
+
 
