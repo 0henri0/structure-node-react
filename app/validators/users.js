@@ -1,11 +1,11 @@
-const { checkUserName, checkPassword, checkEmail } = require('./actions/register');
-const { checkCurrentPassword, checkNewPassword, checkConfirmPassword } = require('./actions/changePassword');
-const { checkUserNameEdit } = require('./actions/profile');
+const { checkUserName, checkPassword, checkEmail } = require('./actions/user/register');
+const { checkCurrentPassword, checkNewPassword, checkConfirmPassword } = require('./actions/user/changePassword');
+const { checkUserNameEdit } = require('./actions/user/profile');
 
 exports.validate = (type) => {
   switch (type) {
     case 'register': {
-      return [checkUserName(), checkPassword(), checkEmail()]
+      return [checkUserName(), checkPassword(), checkEmail()];
     }
 
     case 'changePassword': {
@@ -13,7 +13,7 @@ exports.validate = (type) => {
     }
 
     case 'update': {
-      return [checkUserNameEdit()]
+      return [checkUserNameEdit()];
     }
   }
 }

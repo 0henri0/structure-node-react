@@ -29,7 +29,7 @@ mongoose.connection.on('error', function(err) {
 });
 
 app.use('/admin', admin);
-// app.use('/', web);
+app.use('/', web);
 
 app.use(function (req, res, next) {
   res.sendStatus(404);
