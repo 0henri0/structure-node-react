@@ -1,11 +1,15 @@
-// const express = require('express');
-// const router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-// /*controllers */
-// const users = require('../app/controllers/admin/users');
+/*controllers */
+const home  = require('../app/controllers/mylog/home');
 
-// /*routes */
+/*validation */
 
-// router.get('/', users.index);
 
-// module.exports = router;
+/*routes */
+/*-------------------------------home------------------------------------ */
+router.get('/home', home.index);
+
+
+module.exports = router;

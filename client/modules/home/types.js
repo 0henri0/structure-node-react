@@ -1,0 +1,1 @@
+export const FETCH_MOMENT = 'FETCH_MOMENT';
