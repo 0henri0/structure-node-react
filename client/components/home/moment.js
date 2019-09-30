@@ -5,7 +5,7 @@ const Moment = ({id, src}) => {
     return(
       <article className="blog_style_2108">
         <div className="blog_img">
-        <Link href="/moments/[id]" as={`/moments/${id}`}><a className="logo" ><img className="img-fluid" src={src} alt="" /></a></Link>
+        <Link href="/posts/[id]" as={`/posts/${id}`}><a className="logo" ><img className="img-fluid" src={src} alt="" /></a></Link>
         </div>
         <div className="blog_text">
           <div className="blog_text_inner">

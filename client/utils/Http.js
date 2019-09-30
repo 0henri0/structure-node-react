@@ -83,7 +83,7 @@ export default class Http {
         ...finalHeaderConfig
       }
     };
-    console.log(finalConfig);
+  
     return axios
       .request(finalConfig)
       .then(response => {

@@ -12,6 +12,7 @@ const admin = require('./routes/admin');
 const web = require('./routes/web');
 const app = express();
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,6 +24,9 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors({
+  origin: 'http://localhost:3000'
+}))
 mongoose.connect(config.db, { useNewUrlParser: true });
 mongoose.connection.on('error', function(err) {
   console.log('Error connect to Database: ' + err);
