@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import Moment from './moment';
 import { map } from 'lodash';
-import getMoments from '../../api/home';
+import { getMoments } from '../../api/home';
 
 class ListMomment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      moments: {}
+      posts: {}
     };
   }
 
   componentDidMount() {
-    getMoments()
+    getMoments(0)
       .then(res => {
         this.setState({
-          moments: res.data.mometsArray,
+          posts: res.data,
         });
       })
       .catch(error => {
@@ -23,11 +23,12 @@ class ListMomment extends React.Component {
       });
   }
   render() {
-    const { moments } = this.state;
+    const { postHome } = this.state.posts;
+
     return (
       <div className="blog_left_sidebar">
-        {map(moments, function (moment, index) {
-          return  <Moment id={index} key={index} src={moment.url_image} />
+        {map(postHome, function (post, index) {
+          return  <Moment id={post._id} key={index} src={post.image_title} />
         })
         }
       </div>

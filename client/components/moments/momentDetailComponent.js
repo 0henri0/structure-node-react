@@ -1,9 +1,9 @@
-const MomentDetailComponent = () => {
+const MomentDetailComponent = ({ post }) => {
   return (
     <>
       <div className="main_blog_details">
-        <img className="img-fluid" src="/static/img/blog/news-blog.jpg" alt="" />
-        <a href="#"><h4>Cartridge Is Better Than Ever <br /> A Discount Toner</h4></a>
+        <img className="img-fluid" src={post.image_title} alt="" />
+        <a href="#"><h4>{post.title}</h4></a>
         <div className="user_details">
           <div className="float-left">
             <a href="#">Lifestyle</a>
@@ -21,13 +21,9 @@ const MomentDetailComponent = () => {
             </div>
           </div>
         </div>
-        <p>MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction of the camp price. However, who has the willpower</p>
-        <p>MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction of the camp price. However, who has the willpower to actually sit through a self-imposed MCSE training. who has the willpower to actually sit through a self-imposed MCSE training.</p>
-        <blockquote className="blockquote">
-          <p className="mb-0">MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction of the camp price. However, who has the willpower to actually sit through a self-imposed MCSE training.</p>
-        </blockquote>
-        <p>MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction of the camp price. However, who has the willpower</p>
-        <p>MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction of the camp price. However, who has the willpower</p>
+        <div className="content-post">
+          {post.content}
+        </div>
         <div className="news_d_footer">
           <a href="#"><i className="lnr lnr lnr-heart" />Lily and 4 people like this</a>
           <a className="justify-content-center ml-auto" href="#"><i className="lnr lnr lnr-bubble" />06 Comments</a>
@@ -40,36 +36,15 @@ const MomentDetailComponent = () => {
           </div>
         </div>
       </div>
-      <div className="navigation-area">
-        <div className="row">
-          <div className="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
-            <div className="thumb">
-              <a href="#"><img className="img-fluid" src="/static/img/blog/prev.jpg" alt="" /></a>
-            </div>
-            <div className="arrow">
-              <a href="#"><span className="lnr text-white lnr-arrow-left" /></a>
-            </div>
-            <div className="detials">
-              <p>Prev Post</p>
-              <a href="#"><h4>Space The Final Frontier</h4></a>
-            </div>
-          </div>
-          <div className="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
-            <div className="detials">
-              <p>Next Post</p>
-              <a href="#"><h4>Telescopes 101</h4></a>
-            </div>
-            <div className="arrow">
-              <a href="#"><span className="lnr text-white lnr-arrow-right" /></a>
-            </div>
-            <div className="thumb">
-              <a href="#"><img className="img-fluid" src="/static/img/blog/next.jpg" alt="" /></a>
-            </div>
-          </div>
-        </div>
-      </div>
       <div className="comments-area">
-        <h4>05 Comments</h4>
+        <div className="comment-form">
+          <form>
+            <div className="form-group">
+              <textarea className="form-control mb-10" rows={5} name="message" placeholder="Messege" />
+            </div>
+            <a href="#" className="primary-btn submit_btn">Post Comment</a>
+          </form>
+        </div>
         <div className="comment-list">
           <div className="single-comment justify-content-between d-flex">
             <div className="user justify-content-between d-flex">
@@ -127,6 +102,7 @@ const MomentDetailComponent = () => {
             </div>
           </div>
         </div>
+
         <div className="comment-list">
           <div className="single-comment justify-content-between d-flex">
             <div className="user justify-content-between d-flex">
@@ -165,26 +141,6 @@ const MomentDetailComponent = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="comment-form">
-        <h4>Leave a Reply</h4>
-        <form>
-          <div className="form-group form-inline">
-            <div className="form-group col-lg-6 col-md-6 name">
-              <input type="text" className="form-control" id="name" placeholder="Enter Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Name'" />
-            </div>
-            <div className="form-group col-lg-6 col-md-6 email">
-              <input type="email" className="form-control" id="email" placeholder="Enter email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'" />
-            </div>
-          </div>
-          <div className="form-group">
-            <input type="text" className="form-control" id="subject" placeholder="Subject" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Subject'" />
-          </div>
-          <div className="form-group">
-            <textarea className="form-control mb-10" rows={5} name="message" placeholder="Messege" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'" required defaultValue={''} />
-          </div>
-          <a href="#" className="primary-btn submit_btn">Post Comment</a>
-        </form>
       </div>
     </>
   );
