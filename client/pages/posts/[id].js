@@ -5,17 +5,21 @@ import MomentDetailComponent from '../../components/moments/momentDetailComponen
 import { getMomentDetail } from '../../api/detail';
 
 class MomentDetail extends React.Component {
+  static async getInitialProps({ query }) {
+    const { id } = query;
+    return { idPost: id };
+  }
+
   constructor(props) {
     super(props);
     this.state = {
       post: {}
     };
-  }
+  };
 
   componentDidMount() {
-    getMomentDetail('5d8de49f8c45eb2acc0e63ec')
+    getMomentDetail(this.props.idPost)
       .then(res => {
-        console.log(res);
         this.setState({
           post: res.data,
         });
@@ -30,7 +34,7 @@ class MomentDetail extends React.Component {
     return (
       <Layout title='this is MomentDetail'>
         <BlogArea p='p_100'>
-          <div className="row  d-flex justify-content-center">
+          <div className="row d-flex justify-content-center">
             <div className="col-lg-9 col-md-12">
               <MomentDetailComponent post={post} />
             </div>

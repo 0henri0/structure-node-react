@@ -28,7 +28,7 @@ class ListMomment extends React.Component {
     return (
       <div className="blog_left_sidebar">
         {map(postHome, function (post, index) {
-          return  <Moment id={post._id} key={index} src={post.image_title} />
+          return  <Moment post={post} key={index}/>
         })
         }
       </div>

@@ -1,16 +1,22 @@
-const { createServer } = require('http')
-const next = require('next')
+const next = require('next');
+const express = require('express');
 const dotenv = require('dotenv').config();
-const routes = require('./routes/routes')
+const routes = require('./routes/routes');
 
-const port = parseInt(process.env.PORT, 10) || 3000
-const dev = process.env.NODE_ENV !== 'production'
-const app = next({  dev })
-const handler = routes.getRequestHandler(app)
+const port = parseInt(process.env.PORT, 10) || 3000;
+const dev = process.env.NODE_ENV !== 'production';
+const app = next({  dev });
+const handle = routes.getRequestHandler(app);
 
 app.prepare().then(() => {
-  createServer(handler).listen(port, err => {
-    if (err) throw err
-    console.log(`> Ready on http://localhost:${port}`)
-  })
-})
+  const server = express();
+
+  server.get('*', (req, res) => {
+    return handle(req, res);
+  });
+
+  server.listen(port, err => {
+    if (err) throw err;
+    console.log(`> Ready on http://localhost:${port}`);
+  });
+});
