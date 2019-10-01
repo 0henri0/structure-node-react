@@ -1,3 +1,4 @@
+
 const MomentDetailComponent = ({ post }) => {
   return (
     <>
@@ -22,7 +23,7 @@ const MomentDetailComponent = ({ post }) => {
           </div>
         </div>
         <div className="content-post">
-          {post.content}
+          { post.content }
         </div>
         <div className="news_d_footer">
           <a href="#"><i className="lnr lnr lnr-heart" />Lily and 4 people like this</a>
@@ -60,7 +61,7 @@ const MomentDetailComponent = ({ post }) => {
               </div>
             </div>
             <div className="reply-btn">
-              <a href className="btn-reply text-uppercase">reply</a>
+              <a href="#" className="btn-reply text-uppercase">reply</a>
             </div>
           </div>
         </div>
@@ -79,7 +80,7 @@ const MomentDetailComponent = ({ post }) => {
               </div>
             </div>
             <div className="reply-btn">
-              <a href className="btn-reply text-uppercase">reply</a>
+              <a href="#" className="btn-reply text-uppercase">reply</a>
             </div>
           </div>
         </div>
@@ -98,7 +99,7 @@ const MomentDetailComponent = ({ post }) => {
               </div>
             </div>
             <div className="reply-btn">
-              <a href className="btn-reply text-uppercase">reply</a>
+              <a href="#" className="btn-reply text-uppercase">reply</a>
             </div>
           </div>
         </div>
@@ -118,7 +119,7 @@ const MomentDetailComponent = ({ post }) => {
               </div>
             </div>
             <div className="reply-btn">
-              <a href className="btn-reply text-uppercase">reply</a>
+              <a href="#" className="btn-reply text-uppercase">reply</a>
             </div>
           </div>
         </div>
@@ -137,7 +138,7 @@ const MomentDetailComponent = ({ post }) => {
               </div>
             </div>
             <div className="reply-btn">
-              <a href className="btn-reply text-uppercase">reply</a>
+              <a href="#" className="btn-reply text-uppercase">reply</a>
             </div>
           </div>
         </div>
