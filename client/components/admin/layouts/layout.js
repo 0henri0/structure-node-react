@@ -3,9 +3,12 @@ import { Layout, Menu, Icon, Row, Col, Avatar } from 'antd';
 const { Header, Sider, Content, Footer } = Layout;
 import 'antd/dist/antd.css';
 import './layout.css';
-import { max } from 'moment';
 
 class LayoutAdmin extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   state = {
     collapsed: false,
   };
@@ -62,7 +65,7 @@ class LayoutAdmin extends React.Component {
               minHeight: 700,
             }}
           >
-            Content
+            {this.props.children}
           </Content>
           <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
         </Layout>
