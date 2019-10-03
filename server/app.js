@@ -27,7 +27,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors({
   origin: 'http://localhost:3001'
 }))
-mongoose.connect(config.db, { useNewUrlParser: true });
+mongoose.connect(config.db, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true
+});
 mongoose.connection.on('error', function(err) {
   console.log('Error connect to Database: ' + err);
 });

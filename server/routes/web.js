@@ -10,6 +10,9 @@ const homeBlogValidator = require('../app/validators/homeMyblog');
 
 /*routes */
 /*-------------------------------home------------------------------------ */
+router.get('/', (req, res) => {
+  res.send('welcome!!!');
+});
 router.get('/home', homeBlogValidator.validator('index'), home.index);
 router.get('/posts/:id', detail.index);
 
