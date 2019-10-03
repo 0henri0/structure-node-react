@@ -30,9 +30,9 @@ exports.postManagerByAdmin = async (req) => {
     let perPage   = pagination.PER_PAGE_ADMIN;
     let page      = parseInt(req.query.page) ? parseInt(req.query.page) : 0;
     let count     = await Post.count();
-    let posts  = await Post.find({}).limit(perPage).skip(perPage * page);
+    let data  = await Post.find({}).limit(perPage).skip(perPage * page);
 
-    posts.forEach(post => {
+    data.forEach(post => {
       post['image_title'] = getDomain(req) + post['image_title']
     });
 
@@ -40,7 +40,7 @@ exports.postManagerByAdmin = async (req) => {
       page,
       perPage,
       count,
-      posts
+      data
     };
   } catch (err) {
 

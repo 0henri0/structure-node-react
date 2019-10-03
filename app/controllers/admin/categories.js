@@ -3,10 +3,11 @@
 const Category = require('../../models/category');
 const { validationResult } = require('express-validator');
 const { customMessageValidate } = require('../../support/helpers');
+const { categoryManagerByAdmin } = require('../../services/categoryService');
 
 exports.index = async function (req, res) {
   try {
-    let categories = await Category.find({});
+    let categories = await categoryManagerByAdmin(req);
 
     return res.status(200).json(categories);
   } catch (err) {
