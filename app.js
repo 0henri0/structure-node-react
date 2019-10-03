@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors({
-  origin: 'http://localhost:3000'
+  origin: 'http://localhost:3001'
 }))
 mongoose.connect(config.db, { useNewUrlParser: true });
 mongoose.connection.on('error', function(err) {

@@ -3,10 +3,11 @@
 const User = require('../../models/user');
 const { validationResult } = require('express-validator');
 const { customMessageValidate } = require('../../support/helpers');
+const { userManagerByAdmin } = require('../../services/userService');
 
 exports.index = async function (req, res) {
   try {
-    let users = await User.find({});
+    let users = await userManagerByAdmin(req);
 
     return res.status(200).json(users);
   } catch (err) {

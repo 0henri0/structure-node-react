@@ -50,7 +50,7 @@ class LayoutAdmin extends React.Component {
                 />
               </Col>
 
-              <Col span>
+              <Col>
                 <div style={{ float:'right' }}>
                   <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
                 </div>

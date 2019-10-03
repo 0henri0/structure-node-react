@@ -3,10 +3,10 @@
 const Post = require('../../models/post');
 const { validationResult } = require('express-validator');
 const { customMessageValidate } = require('../../support/helpers');
-
+const { postManagerByAdmin } = require('../../services/postService');
 exports.index = async function (req, res) {
   try {
-    let posts = await Post.find({});
+    let posts = await postManagerByAdmin(req);
 
     return res.status(200).json(posts);
   } catch (err) {

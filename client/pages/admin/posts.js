@@ -36,18 +36,7 @@ const columns = [
 
       return <Icon style={{ fontSize: '16px' }} theme="twoTone" type="close-circle" twoToneColor="#eb2f96" />
     }
-  },
-  {
-    title: 'Draft',
-    dataIndex: 'draft',
-    render: value => {
-      if (value) {
-        return <Icon style={{ fontSize: '16px' }} type="check-circle" theme="twoTone" twoToneColor="#52c41a" />
-      }
-
-      return <Icon style={{ fontSize: '16px' }} theme="twoTone" type="close-circle" twoToneColor="#eb2f96" />
-    }
-  },
+  }
 ];
 
 class Posts extends React.Component {
@@ -83,7 +72,7 @@ class Posts extends React.Component {
         console.log(1);
         this.setState({
           loading: false,
-          data: res.data.posts,
+          data: res.data.data,
           pagination,
         });
       })
