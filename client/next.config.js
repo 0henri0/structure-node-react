@@ -3,9 +3,8 @@ const withCSS = require('@zeit/next-css');
 /* Without CSS Modules, with PostCSS */
 // module.exports = withCSS();
 
-require('dotenv').config();
-
 const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const Dotenv = require('dotenv-webpack');
 
 module.exports = withCSS({
@@ -17,7 +16,7 @@ module.exports = withCSS({
 
       // Read the .env file
       new Dotenv({
-        path: path.join(__dirname, '.env'),
+        path: path.join(__dirname, '../.env'),
         systemvars: true
       })
     ];

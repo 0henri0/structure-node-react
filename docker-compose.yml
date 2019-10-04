@@ -1,22 +1,25 @@
-version: "3.7"
+version: "3"
 
 services:
   node:
     build:
       context: .
-      dockerfile: ./docker/node/Dockerfile
-    env_file:
-      - .env
+      dockerfile: Dockerfile
+    image: my_app
+    container_name: my_app
     ports:
-      - 3000:3000
+      - "3001:3001"
+      - "3000:3000"
     volumes:
       - .:/usr/src/app
     depends_on:
       - mongo
+    command: npm run dev
   mongo:
-    image: mongo
+    image: mongo:4
+    container_name: mongo
     restart: always
     ports:
-      - 27017:27017
+      - 27018:27017
     volumes:
-      - ./data:/data/db
+      - ./.docker/mongo/data:/data/db
