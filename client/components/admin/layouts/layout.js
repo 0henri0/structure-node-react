@@ -1,8 +1,7 @@
 import { Layout, Menu, Icon, Row, Col, Avatar } from 'antd';
-
-const { Header, Sider, Content, Footer } = Layout;
 import 'antd/dist/antd.css';
 import './layout.css';
+const { Header, Sider, Content, Footer } = Layout;
 
 class LayoutAdmin extends React.Component {
   constructor(props) {
@@ -23,7 +22,7 @@ class LayoutAdmin extends React.Component {
     return (
       <Layout>
         <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-        <div className="logo" />
+          <div className="logo" />
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
             <Menu.Item key="1">
               <Icon type="user" />

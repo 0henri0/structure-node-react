@@ -1,8 +1,9 @@
 
 import React from 'react';
-import { Table, Avatar, Icon } from 'antd';
+import { Table, Avatar, Icon, Row, Col } from 'antd';
 import LayoutAdmin from '../../components/admin/layouts/layout';
 import { getPosts } from '../../api/admin/posts';
+import CreatePost from '../../components/admin/posts/createPost';
 
 const columns = [
   {
@@ -84,6 +85,12 @@ class Posts extends React.Component {
   render() {
     return (
       <LayoutAdmin>
+        <Row type="flex" justify="end" style={{ marginBottom: 20 }}>
+          <Col span={1}>
+            <CreatePost />
+          </Col>
+        </Row>
+        
         <Table
           columns={columns}
           dataSource={this.state.data}

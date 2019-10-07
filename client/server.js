@@ -14,7 +14,7 @@ app.prepare().then(() => {
   server.get('*', (req, res) => {
     return handle(req, res);
   });
-
+  console.log(process.env.REACT_APP_URL_API);
   server.listen(port, err => {
     if (err) throw err;
     console.log(`> Ready on http://localhost:${port}`);

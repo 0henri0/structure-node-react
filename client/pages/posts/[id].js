@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import Layout from '../../components/layouts/layout';
 import BlogArea from '../../components/commons/blogArea';
 import MomentDetailComponent from '../../components/moments/momentDetailComponent';
