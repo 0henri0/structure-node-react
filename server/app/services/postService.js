@@ -10,7 +10,7 @@ exports.postHome = async (req) => {
     let count     = await Post.count();
     let postHome  = await Post.find({}).limit(perPage).skip(perPage * page);
     postHome.forEach(post => {
-      return post.image_title = getDomain(req) + post.image_title
+      return post.image_title = getDomain(req) + post.image_title;
     });
 
     return {
@@ -33,7 +33,7 @@ exports.postManagerByAdmin = async (req) => {
     let data  = await Post.find({}).limit(perPage).skip(perPage * page);
 
     data.forEach(post => {
-      post['image_title'] = getDomain(req) + post['image_title']
+      post['image_title'] = getDomain(req) + post['image_title'];
     });
 
     return {

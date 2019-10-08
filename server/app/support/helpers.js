@@ -1,5 +1,6 @@
 exports.customMessageValidate = (errors) => {
   let customErrors = { ...errors.array() };
+
   for (let i in customErrors) {
     let param = customErrors[i].param;
 
@@ -22,4 +23,4 @@ exports.updateImage = () => {
 
 exports.getDomain = (req) => {
   return req.protocol + '://' + req.get('host') + '/';
-}
+};

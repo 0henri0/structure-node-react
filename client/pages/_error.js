@@ -1,11 +1,18 @@
-import Layout from '../components/layouts/layout';
+import React from 'react';
 
-const Contact = () => {
+function Error({ statusCode }) {
   return (
-    <Layout title='This Ts Error'>
-        <h1 className='text-danger'>This is error page</h1>
-    </Layout>
-  );
-};
+    <p>
+      {statusCode
+        ? `An error ${statusCode} occurred on server`
+        : 'An error occurred on client'}
+    </p>
+  )
+}
 
-export default Contact;
+Error.getInitialProps = ({ res, err }) => {
+  const statusCode = res ? res.statusCode : err ? err.statusCode : 404
+  return { statusCode }
+}
+
+export default Error

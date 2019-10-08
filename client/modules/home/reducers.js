@@ -6,13 +6,13 @@ const initinalState = {
 
 export default function (state = initinalState, action) {
   switch (action.type) {
-    case Type.FETCH_MOMENT:
-      return {
-        ...state,
-        ...{ moments: action.payload }
-      };
+  case Type.FETCH_MOMENT:
+    return {
+      ...state,
+      ...{ moments: action.payload }
+    };
 
-    default:
-      return state;
+  default:
+    return state;
   }
 }

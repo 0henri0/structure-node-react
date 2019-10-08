@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "ahihi",
   "scripts": {
-    "test": "cd client && npm run test && cd ../server && npm run test",
+    "eslint": "cd client && npm run eslint && cd ../server && npm run eslint",
     "setup": "npm install && cd client && npm install && cd ../server && npm install",
     "dev": "concurrently \"npm run client\" \"npm run server\"",
     "client": "npm run dev:server --prefix client",

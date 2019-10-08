@@ -15,7 +15,7 @@ class MomentDetail extends React.Component {
     this.state = {
       post: {}
     };
-  };
+  }
 
   componentDidMount() {
     getMomentDetail(this.props.idPost)
@@ -43,6 +43,6 @@ class MomentDetail extends React.Component {
       </Layout>
     );
   }
-};
+}
 
 export default MomentDetail;

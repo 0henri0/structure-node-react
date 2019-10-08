@@ -11,7 +11,7 @@ exports.categoryManagerByAdmin = async (req) => {
     let data      = await Category.find({}).limit(perPage).skip(perPage * page);
 
     data.forEach(category => {
-      category['image'] = getDomain(req) + category['image']
+      category['image'] = getDomain(req) + category['image'];
     });
 
     return {

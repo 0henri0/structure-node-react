@@ -11,7 +11,7 @@ exports.userManagerByAdmin = async (req) => {
     let data      = await User.find({}).limit(perPage).skip(perPage * page);
 
     data.forEach(user => {
-      user['avatar'] = getDomain(req) + user['avatar']
+      user['avatar'] = getDomain(req) + user['avatar'];
     });
 
     return {

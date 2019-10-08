@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Table, Avatar, Icon } from 'antd';
+import { Table, Avatar } from 'antd';
 import LayoutAdmin from '../../components/admin/layouts/layout';
 import { getCategories } from '../../api/admin/categories';
 
@@ -29,7 +28,7 @@ class Categories extends React.Component {
       pagination: {},
       loading: false,
     }
-  };
+  }
 
   componentDidMount() {
     this.fetch();

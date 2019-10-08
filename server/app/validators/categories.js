@@ -3,11 +3,11 @@ const { checkNameEdit } = require('./actions/category/editCategory');
 
 exports.validate = (type) => {
   switch (type) {
-    case 'create': {
-      return [checkNameCreate()];
-    }
-    case 'update': {
-      return [checkNameEdit()];
-    }
+  case 'create': {
+    return [checkNameCreate()];
+  }
+  case 'update': {
+    return [checkNameEdit()];
+  }
   }
 };
