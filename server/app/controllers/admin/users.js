@@ -1,9 +1,10 @@
 'use strict';
 
-const User = require('../../models/user');
-const { validationResult } = require('express-validator');
+const crypto  = require('crypto');
+const User    = require('../../models/user');
+const { validationResult }      = require('express-validator');
 const { customMessageValidate } = require('../../support/helpers');
-const { userManagerByAdmin } = require('../../services/userService');
+const { userManagerByAdmin }    = require('../../services/userService');
 
 exports.index = async function (req, res) {
   try {
@@ -33,7 +34,7 @@ exports.store = async function (req, res) {
   if (errors.array().length) {
     return res.status(422).json(customMessageValidate(errors));
   }
-  const { email } = req.body;
+  const { email, password } = req.body;
   let user = await User.find({ email });
 
   if (user.length) {
@@ -41,8 +42,12 @@ exports.store = async function (req, res) {
     return res.status(422).json({ msg: 'The user already exists.' });
   }
   try {
+    const randomX = 'thai-dep-trai';
+    const passwordHash = crypto.createHmac('sha256', randomX).update(password).digest('hex');
+   
+    console.log(passwordHash);
     user = new User(req.body);
-    user.save();
+    //user.save();
 
     return res.status(200).json({ data: { user } });
   } catch (err) {
