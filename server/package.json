@@ -12,7 +12,8 @@
   },
   "scripts": {
     "dev": "nodemon server.js",
-    "eslint": "eslint ./ --fix"
+    "start": "node server.js",
+    "eslint": "eslint ./ --config .eslintrc.json --fix"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -21,13 +22,11 @@
     "dotenv": "^8.1.0",
     "express": "~4.16.1",
     "express-validator": "^6.2.0",
-    "http-errors": "~1.6.3",
     "mongoose": "^5.7.1",
     "morgan": "~1.9.1",
     "pug": "^2.0.4"
   },
   "devDependencies": {
-    "babel-eslint": "^10.0.3",
     "eslint": "^6.4.0",
     "nodemon": "^1.19.2"
   }

@@ -47,7 +47,7 @@ class Posts extends React.Component {
       pagination: {},
       loading: false,
     }
-  };
+  }
 
   componentDidMount() {
     this.fetch();

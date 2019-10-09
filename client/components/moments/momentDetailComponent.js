@@ -57,7 +57,7 @@ const MomentDetailComponent = ({ post }) => {
                 <p className="date">December 4, 2017 at 3:12 pm </p>
                 <p className="comment">
                   Never say goodbye till the end comes!
-            </p>
+                </p>
               </div>
             </div>
             <div className="reply-btn">
@@ -76,7 +76,7 @@ const MomentDetailComponent = ({ post }) => {
                 <p className="date">December 4, 2017 at 3:12 pm </p>
                 <p className="comment">
                   Never say goodbye till the end comes!
-            </p>
+                </p>
               </div>
             </div>
             <div className="reply-btn">
@@ -95,7 +95,7 @@ const MomentDetailComponent = ({ post }) => {
                 <p className="date">December 4, 2017 at 3:12 pm </p>
                 <p className="comment">
                   Never say goodbye till the end comes!
-            </p>
+                </p>
               </div>
             </div>
             <div className="reply-btn">
@@ -115,7 +115,7 @@ const MomentDetailComponent = ({ post }) => {
                 <p className="date">December 4, 2017 at 3:12 pm </p>
                 <p className="comment">
                   Never say goodbye till the end comes!
-            </p>
+                </p>
               </div>
             </div>
             <div className="reply-btn">
@@ -134,7 +134,7 @@ const MomentDetailComponent = ({ post }) => {
                 <p className="date">December 4, 2017 at 3:12 pm </p>
                 <p className="comment">
                   Never say goodbye till the end comes!
-            </p>
+                </p>
               </div>
             </div>
             <div className="reply-btn">

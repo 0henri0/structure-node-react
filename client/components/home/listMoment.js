@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Moment from './moment';
 import { map } from 'lodash';
 import { getMoments } from '../../api/home';

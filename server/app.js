@@ -2,7 +2,6 @@
 
 require('dotenv').config();
 
-const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -26,7 +25,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors({
   origin: 'http://localhost:3001'
-}))
+}));
+
 mongoose.connect(config.db, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -39,11 +39,12 @@ mongoose.connection.on('error', function(err) {
 app.use('/admin', admin);
 app.use('/', web);
 
-app.use(function (req, res, next) {
+app.use(function (req, res) {
   res.sendStatus(404);
 });
+
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function (err, req, res) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

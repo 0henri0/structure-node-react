@@ -11,15 +11,15 @@ class Login extends React.Component {
       'email': email, 
       'password': password
     })
-    .then(response => {
-      console.log('success');
-      localStorage.setItem('access_token', response.data.access_token);
-      window.location.href = '/';
-    })
-    .catch(error => {
-      console.log('error2');
-      return error;
-    });
+      .then(response => {
+        console.log('success');
+        localStorage.setItem('access_token', response.data.access_token);
+        window.location.href = '/';
+      })
+      .catch(error => {
+        console.log('error2');
+        return error;
+      });
   }
 
   render() {

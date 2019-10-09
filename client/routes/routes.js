@@ -1,5 +1,8 @@
-const nextRoutes = require('next-routes')
-const routes = (module.exports = nextRoutes())
+const routes = require('next-routes')
 
-routes.add('/login', '/auth/login')
-
+module.exports = routes()
+  .add('home', '/', '/')
+  .add('login', '/auth/login', 'auth/login')
+  .add('register', '/auth/register', 'auth/register')
+  // routes for admin
+  .add('admin', 'admin', 'admin/index')
