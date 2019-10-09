@@ -1,6 +1,6 @@
 # Structure Node React :rocket:
 
-This project aim to build a blog web-based that built by NodeJS and NextJS. It's totally open source 
+This project aim to developed a open publishing platform by NodeJS and NextJS. he platform is an example of social journalism, having a hybrid collection of amateur and professional people and publications, or exclusive blogs or publishers, and is regularly regarded as a blog host. Especially It's totally open source.
 
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 
