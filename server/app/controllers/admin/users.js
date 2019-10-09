@@ -1,11 +1,10 @@
 'use strict';
 
-const crypto  = require('crypto');
 const User    = require('../../models/user');
-const { validationResult }      = require('express-validator');
-const { customMessageValidate } = require('../../support/helpers');
-const { userManagerByAdmin }    = require('../../services/userService');
-const { encryptPassword, makeSalt }       = require('../../services/authService');
+const { validationResult }          = require('express-validator');
+const { userManagerByAdmin }        = require('../../services/userService');
+const { customMessageValidate }     = require('../../support/helpers');
+const { encryptPassword, makeSalt } = require('../../services/authService');
 
 exports.index = async (req, res) => {
   try {

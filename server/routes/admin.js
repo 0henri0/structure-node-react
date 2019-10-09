@@ -7,26 +7,27 @@ const users       = require('../app/controllers/admin/users');
 const posts       = require('../app/controllers/admin/posts');
 const tags        = require('../app/controllers/admin/tags');
 const auth        = require('../app/controllers/admin/auth');
+const admin       = require('../app/controllers/admin/admins');
 
 /*validations */
 const categoriesValidate  = require('../app/validators/categories');
 const usersValidate       = require('../app/validators/users');
 const postsValidate       = require('../app/validators/posts');
 const tagsValidate        = require('../app/validators/tags');
-
+const adminsValidate      = require('../app/validators/admins');
 /*middlewaves */
-const { checkLogin, checkAdmin } = require('../app/middlewaves/jwtMiddlewave');
+const { checkAdmin } = require('../app/middlewaves/jwtMiddlewave');
 /*-------------------------------auth-------------------------------------- */
 router.post('/login', auth.login);
 
 /*routes */
 /*-------------------------------middlewave_common------------------------- */
 router.use((req, res, next) => {
-  checkLogin(req, res, next);
-})
-router.use((req, res, next) => {
   checkAdmin(req, res, next);
 })
+
+/*-------------------------------admins------------------------------------ */
+router.post('/admins/create', adminsValidate.validate('register'), admin.store);
 
 /*-------------------------------users------------------------------------- */
 router.get('/users', users.index);

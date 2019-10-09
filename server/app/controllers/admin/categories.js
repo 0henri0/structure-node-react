@@ -53,11 +53,8 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
   try {
-
     return res.status(200).json({ msg: 'delete success!' });
   } catch (err) {
     return res.status(500).json(err);
   }
 };
-
-

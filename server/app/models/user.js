@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const constants = require('../../config/constants');
 
 const UserSchema = Schema(
   {
@@ -16,7 +17,7 @@ const UserSchema = Schema(
     rule: {
       type: Number,
       required: true,
-      default: 0,
+      default: constants.USER_RULE_MEMBER,
     },
     password_hash: {
       type: String,
