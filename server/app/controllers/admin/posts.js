@@ -4,7 +4,7 @@ const Post = require('../../models/post');
 const { validationResult } = require('express-validator');
 const { customMessageValidate } = require('../../support/helpers');
 const { postManagerByAdmin } = require('../../services/postService');
-exports.index = async function (req, res) {
+exports.index = async (req, res) => {
   try {
     let posts = await postManagerByAdmin(req);
 
@@ -15,7 +15,7 @@ exports.index = async function (req, res) {
   }
 };
 
-exports.detail = async function (req, res) {
+exports.detail = async (req, res) => {
   try {
     let post = await Post.findById(req.params.id);
 
@@ -26,7 +26,7 @@ exports.detail = async function (req, res) {
   }
 };
 
-exports.store = async function (req, res) {
+exports.store = async (req, res) => {
   const errors = validationResult(req);
 
   if (errors.array().length) {
@@ -40,7 +40,7 @@ exports.store = async function (req, res) {
   return res.status(200).json({ data: { post } });
 };
 
-exports.update = async function (req, res) {
+exports.update = async (req, res) => {
   const errors = validationResult(req);
 
   if (errors.array().length) {
@@ -57,7 +57,7 @@ exports.update = async function (req, res) {
   }
 };
 
-exports.delete = async function (req, res) {
+exports.delete = async (req, res) => {
   try {
     let post = await Post.findByIdAndDelete(req.params.id);
 

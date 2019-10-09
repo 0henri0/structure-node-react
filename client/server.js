@@ -1,5 +1,6 @@
 const express = require('express');
 const next = require('next');
+const dotenv = require('dotenv').config({ path: __dirname + '/./../.env' });
 const routes = require('./routes/routes');
 
 const port = parseInt(process.env.PORT, 10) || 3000;

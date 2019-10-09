@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const DEFAULT_CONFIG = {
-  baseURL: process.env.REACT_APP_URL_API,
+  baseURL: process.env.REACT_APP_URL_API || 'http://localhost:8000',
   headers: {
     'Content-Type': 'application/json',
     'X-Requested-With': 'XMLHttpRequest',

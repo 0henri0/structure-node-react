@@ -18,13 +18,17 @@ const UserSchema = Schema(
       required: true,
       default: 0,
     },
-    password: {
+    password_hash: {
+      type: String,
+      required: true,
+    },
+    salt: {
       type: String,
       required: true,
     },
     avatar: {
       type: String,
-      default: '',
+      default: 'img/imagegallary/1.jpg',
     },
     deleted_at: {
       default: '',
