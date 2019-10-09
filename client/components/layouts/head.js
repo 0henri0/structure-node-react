@@ -22,4 +22,3 @@ HeadApp.propTypes = {
 };
 
 export default HeadApp;
-

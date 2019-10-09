@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import Store from '../redux/store';
 
 import '../styles/styles.less';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
