@@ -1,11 +1,16 @@
-const blogRightSiderbar = () => {
+import React from 'react';
+import { Icon } from 'antd';
+
+import '../../../styles/blog_right_sidebar.less';
+
+const BlogRightSidebar = () => {
   return (
     <div className="blog_right_sidebar">
       <aside className="single_sidebar_widget search_widget">
         <div className="input-group">
           <input type="text" className="form-control" placeholder="Search Posts" />
           <span className="input-group-btn">
-            <button className="btn btn-default" type="button"><i className="lnr lnr-magnifier" /></button>
+            <button className="btn btn-default" type="button"><Icon type="search" /></button>
           </span>
         </div>
         <div className="br" />
@@ -16,10 +21,7 @@ const blogRightSiderbar = () => {
         <p>Senior blog writer</p>
         <p>Boot camps have its supporters andit sdetractors. Some people do not understand why you should have to spend money on boot camp when you can get. Boot camps have itssuppor ters andits detractors.</p>
         <div className="social_icon">
-          <a href="#"><i className="fa fa-facebook" /></a>
-          <a href="#"><i className="fa fa-twitter" /></a>
-          <a href="#"><i className="fa fa-github" /></a>
-          <a href="#"><i className="fa fa-behance" /></a>
+          <Icon type="facebook" />
         </div>
         <div className="br" />
       </aside>
@@ -52,16 +54,6 @@ const blogRightSiderbar = () => {
             <a href="blog-details.html"><h3>Asteroids telescope</h3></a>
             <p>01 Hours ago</p>
           </div>
-        </div>
-        <div className="br" />
-      </aside>
-      <aside className="single-sidebar-widget newsletter_widget">
-        <h4 className="widget_title">Newsletter</h4>
-        <div className="form-group d-flex flex-row">
-          <div className="input-group">
-            <input type="text" className="form-control" id="inlineFormInputGroup" placeholder="Enter email" />
-          </div>
-          <a href="#" className="bbtns"><i className="lnr lnr-arrow-right" /></a>
         </div>
         <div className="br" />
       </aside>
@@ -111,9 +103,27 @@ const blogRightSiderbar = () => {
             </a>
           </li>
         </ul>
+        <div className="br" />
+      </aside>
+      <aside className="single-sidebar-widget tag_cloud_widget">
+        <h4 className="widget_title">Tag Clouds</h4>
+        <ul className="list">
+          <li><a href="#">Technology</a></li>
+          <li><a href="#">Fashion</a></li>
+          <li><a href="#">Architecture</a></li>
+          <li><a href="#">Fashion</a></li>
+          <li><a href="#">Food</a></li>
+          <li><a href="#">Technology</a></li>
+          <li><a href="#">Lifestyle</a></li>
+          <li><a href="#">Art</a></li>
+          <li><a href="#">Adventure</a></li>
+          <li><a href="#">Food</a></li>
+          <li><a href="#">Lifestyle</a></li>
+          <li><a href="#">Adventure</a></li>
+        </ul>
       </aside>
     </div>
   );
 };
 
-export default blogRightSiderbar;
+export default BlogRightSidebar;

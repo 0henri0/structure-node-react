@@ -24,7 +24,7 @@ router.post('/login', auth.login);
 /*-------------------------------middlewave_common------------------------- */
 router.use((req, res, next) => {
   checkAdmin(req, res, next);
-})
+});
 
 /*-------------------------------admins------------------------------------ */
 router.post('/admins/create', adminsValidate.validate('register'), admin.store);

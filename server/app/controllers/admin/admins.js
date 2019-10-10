@@ -26,7 +26,7 @@ exports.store = async (req, res) => {
       email: email,
       password_hash: passwordHash,
       salt: salt
-    }
+    };
     let AdminCreate = new Admin(params);
     AdminCreate.save();
 

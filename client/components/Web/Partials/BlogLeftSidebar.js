@@ -1,5 +1,6 @@
 import React from 'react';
 import { Icon } from 'antd';
+import { Link } from '../../../routes/routes';
 
 import '../../../styles/blog_left_sidebar.less';
 
@@ -16,13 +17,15 @@ const BlogRightSidebar = () => {
               <a className="cat_btn" href="#">Gadgets</a>
               <a href="#"><Icon type="calendar" /> March 14, 2018</a>
             </div>
-            <a href="#">
-              <h4>Nest Protect: 2nd Gen Smoke + CO Alarm</h4>
-            </a>
+            <Link route='post' params={{slug: 'hello-world'}}>
+              <a><h4>Nest Protect: 2nd Gen Smoke + CO Alarm</h4></a>
+            </Link>
             <p>
               Vào lúc 15h30 ngày 8/10, tên cướp đội mũ bảo hiểm, đeo khẩu trang đi xe máy Yamaha Exciter xông vào tiệm vàng Lương Oanh ở phường Mạo Khê, thị xã Đông Triều, Quảng Ninh. Một lúc sau, tên này xách balo chạy ra cửa nhưng làm rơi nhiều cọc tiền. Hai phụ nữ trong tiệm vàng hô hoán, chạy ra giằng được chiếc túi.
             </p>
-            <a className="blog_btn" href="#">Read More</a>
+            <Link route='post' params={{slug: 'hello-world'}}>
+              <a className="blog_btn">Read More</a>
+            </Link>
           </div>
         </div>
       </article>

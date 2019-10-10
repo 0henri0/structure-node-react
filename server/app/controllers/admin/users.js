@@ -47,10 +47,10 @@ exports.store = async (req, res) => {
 
     let params = {
       email: email,
-       password_hash: passwordHash
-       , username:username,
-        salt: salt
-    }
+      password_hash: passwordHash
+      , username:username,
+      salt: salt
+    };
     let userCreate = new User(params);
     userCreate.save();
 

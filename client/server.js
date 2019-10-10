@@ -1,5 +1,6 @@
 const express = require('express');
 const next = require('next');
+/* eslint-disable-next-line no-unused-vars */
 const dotenv = require('dotenv').config({ path: __dirname + '/./../.env' });
 const routes = require('./routes/routes');
 
@@ -7,10 +8,9 @@ const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({  dev });
 const handle = routes.getRequestHandler(app);
+const server = express();
 
 app.prepare().then(() => {
-  const server = express();
-
   server.use(handle);
 
   server.listen(port, err => {
