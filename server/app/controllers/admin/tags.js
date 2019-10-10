@@ -4,7 +4,7 @@ const Tag = require('../../models/tag');
 const { validationResult } = require('express-validator');
 const { customMessageValidate } = require('../../support/helpers');
 
-exports.index = async function (req, res) {
+exports.index = async (req, res) => {
   try {
     let tags = await Tag.find({});
 
@@ -15,7 +15,7 @@ exports.index = async function (req, res) {
   }
 };
 
-exports.store = async function (req, res) {
+exports.store = async (req, res) => {
   const errors = validationResult(req);
 
   if (errors.array().length) {
@@ -33,7 +33,7 @@ exports.store = async function (req, res) {
   }
 };
 
-exports.update = async function (req, res) {
+exports.update = async (req, res) => {
   const errors = validationResult(req);
 
   if (errors.array().length) {
@@ -50,7 +50,7 @@ exports.update = async function (req, res) {
   }
 };
 
-exports.delete = async function (req, res) {
+exports.delete = async (req, res) => {
   try {
 
     return res.status(200).json({ msg: 'delete success!' });

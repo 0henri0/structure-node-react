@@ -1,11 +1,12 @@
 'use strict';
 
-const User = require('../../models/user');
-const { validationResult } = require('express-validator');
-const { customMessageValidate } = require('../../support/helpers');
-const { userManagerByAdmin } = require('../../services/userService');
+const User    = require('../../models/user');
+const { validationResult }          = require('express-validator');
+const { userManagerByAdmin }        = require('../../services/userService');
+const { customMessageValidate }     = require('../../support/helpers');
+const { encryptPassword, makeSalt } = require('../../services/authService');
 
-exports.index = async function (req, res) {
+exports.index = async (req, res) => {
   try {
     let users = await userManagerByAdmin(req);
 
@@ -16,7 +17,7 @@ exports.index = async function (req, res) {
   }
 };
 
-exports.detail = async function (req, res) {
+exports.detail = async (req, res) => {
   try {
     let user = await User.findById(req.params.id);
 
@@ -27,13 +28,13 @@ exports.detail = async function (req, res) {
   }
 };
 
-exports.store = async function (req, res) {
+exports.store = async (req, res) => {
   const errors = validationResult(req);
 
   if (errors.array().length) {
     return res.status(422).json(customMessageValidate(errors));
   }
-  const { email } = req.body;
+  const { email, password, username } = req.body;
   let user = await User.find({ email });
 
   if (user.length) {
@@ -41,8 +42,17 @@ exports.store = async function (req, res) {
     return res.status(422).json({ msg: 'The user already exists.' });
   }
   try {
-    user = new User(req.body);
-    user.save();
+    let salt = makeSalt();
+    let passwordHash = encryptPassword(password, salt);
+
+    let params = {
+      email: email,
+       password_hash: passwordHash
+       , username:username,
+        salt: salt
+    }
+    let userCreate = new User(params);
+    userCreate.save();
 
     return res.status(200).json({ data: { user } });
   } catch (err) {
@@ -51,7 +61,7 @@ exports.store = async function (req, res) {
   }
 };
 
-exports.update = async function (req, res) {
+exports.update = async (req, res) => {
   const errors = validationResult(req);
 
   if (errors.array().length) {
