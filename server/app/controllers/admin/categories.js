@@ -3,15 +3,14 @@
 const Category = require('../../models/category');
 const { validationResult } = require('express-validator');
 const { customMessageValidate } = require('../../support/helpers');
-const { categoryManagerByAdmin } = require('../../services/categoryService');
+const { getListCategories } = require('../../services/admin/categoryService');
 
 exports.index = async (req, res) => {
   try {
-    let categories = await categoryManagerByAdmin(req);
+    const categories = await getListCategories(req);
 
     return res.status(200).json(categories);
   } catch (err) {
-
     return res.status(500).json(err);
   }
 };
@@ -24,12 +23,11 @@ exports.store = async (req, res) => {
   }
 
   try {
-    let category = new Category(req.body);
+    const category = new Category(req.body);
     category.save();
 
     return res.status(200).json({ data: { category } });
   } catch (err) {
-
     return res.status(500).json(err);
   }
 };
@@ -53,7 +51,9 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
   try {
-    return res.status(200).json({ msg: 'delete success!' });
+    const category = await Category.findByIdAndDelete(req.params.id);
+
+    return res.status(200).json({ data: category, msg: 'delete success!' });
   } catch (err) {
     return res.status(500).json(err);
   }

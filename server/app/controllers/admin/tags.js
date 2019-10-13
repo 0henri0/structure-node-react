@@ -6,7 +6,7 @@ const { customMessageValidate } = require('../../support/helpers');
 
 exports.index = async (req, res) => {
   try {
-    let tags = await Tag.find({});
+    const tags = await Tag.find({});
 
     return res.status(200).json(tags);
   } catch (err) {
@@ -23,7 +23,7 @@ exports.store = async (req, res) => {
   }
 
   try {
-    let tag = new Tag(req.body);
+    const tag = new Tag(req.body);
     tag.save();
 
     return res.status(200).json({ data: { tag } });
@@ -41,7 +41,7 @@ exports.update = async (req, res) => {
   }
 
   try {
-    let { name } = req.body;
+    const { name } = req.body;
     await Tag.findByIdAndUpdate(req.params.id, { $set: { name } });
 
     return res.status(200).json({ msg: 'update success!' });
@@ -52,11 +52,10 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
   try {
+    const tag = await Tag.findByIdAndDelete(req.params.id);
 
-    return res.status(200).json({ msg: 'delete success!' });
+    return res.status(200).json({ data: tag, msg: 'delete success!' });
   } catch (err) {
     return res.status(500).json(err);
   }
 };
-
-

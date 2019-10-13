@@ -5,7 +5,7 @@ const { getDomain } = require('../../support/helpers');
 
 exports.index = async function (req, res) {
   try {
-    let post = await Post.findById(req.params.id);
+    const post = await Post.findById(req.params.id);
     post.image_title = getDomain(req) + post.image_title;
 
     return res.status(200).json(post);

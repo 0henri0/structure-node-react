@@ -4,16 +4,16 @@ const { checkUserNameEdit } = require('./actions/user/profile');
 
 exports.validate = (type) => {
   switch (type) {
-  case 'register': {
-    return [checkUserName(), checkPassword(), checkEmail()];
-  }
+    case 'register': {
+      return [checkUserName(), checkPassword(), checkEmail()];
+    }
 
-  case 'changePassword': {
-    return [checkCurrentPassword(), checkNewPassword(), checkConfirmPassword()];
-  }
+    case 'changePassword': {
+      return [checkCurrentPassword(), checkNewPassword(), checkConfirmPassword()];
+    }
 
-  case 'update': {
-    return [checkUserNameEdit()];
-  }
+    case 'update': {
+      return [checkUserNameEdit()];
+    }
   }
 };
