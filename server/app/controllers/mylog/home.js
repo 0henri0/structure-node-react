@@ -3,19 +3,14 @@ const homeService = require('../../services/myblog/homeService');
 const { validationResult } = require('express-validator');
 const { customMessageValidate } = require('../../support/helpers');
 
-exports.index = async (req, res, next) => {
-  const errors = validationResult(req);
-
-  if (errors.array().length) {
-    return res.status(422).json(customMessageValidate(errors));
-  }
-
+exports.index = async (req, res) => {
   try {
-    const listPost = await homeService.getListPost(req);
+    const listPost = await homeService.getListPostInitial(req);
+    const listCategories = await homeService.getListCategories(req);
 
-    return res.status(200).json(listPost);
+    return res.status(200).json({ listPost, listCategories });
   } catch (err) {
-
-    return next(err);
+    console.log(err);
+    return res.status(500).json(err)
   }
 };

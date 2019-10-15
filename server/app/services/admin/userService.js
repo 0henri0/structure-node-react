@@ -7,7 +7,7 @@ exports.getUsers = async (req) => {
   try {
     const perPage = pagination.PER_PAGE_ADMIN;
     const page = parseInt(req.query.page) ? parseInt(req.query.page) : 0;
-    const count = await User.count();
+    const count = await User.countDocuments();
     const data = await User.find({}).limit(perPage).skip(perPage * page);
 
     data.forEach(user => {
