@@ -7,7 +7,7 @@ exports.getListPost = async (req) => {
   try {
     const perPage = pagination.PER_PAGE_ADMIN;
     const page = parseInt(req.query.page) ? parseInt(req.query.page) : 0;
-    const count = await Post.count();
+    const count = await Post.countDocuments();
     const data = await Post.find({}).limit(perPage).skip(perPage * page);
 
     data.forEach(post => {

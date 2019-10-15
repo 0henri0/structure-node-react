@@ -4,6 +4,8 @@ const Category = require('../../models/category');
 const { validationResult } = require('express-validator');
 const { customMessageValidate } = require('../../support/helpers');
 const { getListCategories } = require('../../services/admin/categoryService');
+const logInfo = require('../../logger/logInfo');
+const logError = require('../../logger/logError');
 
 exports.index = async (req, res) => {
   try {
@@ -11,11 +13,17 @@ exports.index = async (req, res) => {
 
     return res.status(200).json(categories);
   } catch (err) {
+    //write Log Error
+    logError.error(err);
+
     return res.status(500).json(err);
   }
 };
 
 exports.store = async (req, res) => {
+  //write Log info
+  logInfo.info(req);
+
   const errors = validationResult(req);
 
   if (errors.array().length) {
@@ -28,11 +36,17 @@ exports.store = async (req, res) => {
 
     return res.status(200).json({ data: { category } });
   } catch (err) {
+    //write Log Error
+    logError.error(err);
+
     return res.status(500).json(err);
   }
 };
 
 exports.update = async (req, res) => {
+  //write Log info
+  logInfo.info(req);
+
   const errors = validationResult(req);
 
   if (errors.array().length) {
@@ -45,6 +59,9 @@ exports.update = async (req, res) => {
 
     return res.status(200).json({ msg: 'update success!' });
   } catch (err) {
+    //write Log Error
+    logError.error(err);
+
     return res.status(500).json(err);
   }
 };
@@ -55,6 +72,9 @@ exports.delete = async (req, res) => {
 
     return res.status(200).json({ data: category, msg: 'delete success!' });
   } catch (err) {
+    //write Log Error
+    logError.error(err);
+
     return res.status(500).json(err);
   }
 };

@@ -15,8 +15,10 @@ const usersValidate       = require('../app/validators/users');
 const postsValidate       = require('../app/validators/posts');
 const tagsValidate        = require('../app/validators/tags');
 const adminsValidate      = require('../app/validators/admins');
+
 /*middlewaves */
 const { checkAdmin } = require('../app/middlewaves/jwtMiddlewave');
+
 /*-------------------------------auth-------------------------------------- */
 router.post('/login', auth.login);
 router.post('/refresh_token', auth.refreshToken);

@@ -5,6 +5,8 @@ const { validationResult }          = require('express-validator');
 const { getUsers }        = require('../../services/admin/userService');
 const { customMessageValidate }     = require('../../support/helpers');
 const { encryptPassword, makeSalt } = require('../../services/admin/authService');
+const logInfo = require('../../logger/logInfo');
+const logError = require('../../logger/logError');
 
 exports.index = async (req, res) => {
   try {
@@ -29,6 +31,9 @@ exports.detail = async (req, res) => {
 };
 
 exports.store = async (req, res) => {
+  // write Log
+  logInfo.info(req);
+
   const errors = validationResult(req);
 
   if (errors.array().length) {
@@ -62,6 +67,9 @@ exports.store = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
+  // write Log
+  logInfo.info(req);
+
   const errors = validationResult(req);
 
   if (errors.array().length) {

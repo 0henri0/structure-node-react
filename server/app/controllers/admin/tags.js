@@ -3,6 +3,8 @@
 const Tag = require('../../models/tag');
 const { validationResult } = require('express-validator');
 const { customMessageValidate } = require('../../support/helpers');
+const logInfo = require('../../logger/logInfo');
+const logError = require('../../logger/logError');
 
 exports.index = async (req, res) => {
   try {
@@ -16,6 +18,9 @@ exports.index = async (req, res) => {
 };
 
 exports.store = async (req, res) => {
+  // write Log
+  logInfo.info(req);
+
   const errors = validationResult(req);
 
   if (errors.array().length) {
@@ -34,6 +39,9 @@ exports.store = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
+  // write Log
+  logInfo.info(req);
+
   const errors = validationResult(req);
 
   if (errors.array().length) {
@@ -56,6 +64,9 @@ exports.delete = async (req, res) => {
 
     return res.status(200).json({ data: tag, msg: 'delete success!' });
   } catch (err) {
+    //write Log Error
+    logError.error(err);
+    
     return res.status(500).json(err);
   }
 };

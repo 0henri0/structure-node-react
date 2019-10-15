@@ -5,7 +5,6 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const logger = require('morgan');
 const config = require('./config/configure');
 const admin = require('./routes/admin');
 const web = require('./routes/web');
@@ -17,7 +16,6 @@ const cors = require('cors');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
