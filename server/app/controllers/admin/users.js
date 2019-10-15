@@ -2,13 +2,13 @@
 
 const User    = require('../../models/user');
 const { validationResult }          = require('express-validator');
-const { userManagerByAdmin }        = require('../../services/userService');
+const { getUsers }        = require('../../services/admin/userService');
 const { customMessageValidate }     = require('../../support/helpers');
-const { encryptPassword, makeSalt } = require('../../services/authService');
+const { encryptPassword, makeSalt } = require('../../services/admin/authService');
 
 exports.index = async (req, res) => {
   try {
-    let users = await userManagerByAdmin(req);
+    const users = await getUsers(req);
 
     return res.status(200).json(users);
   } catch (err) {
@@ -19,7 +19,7 @@ exports.index = async (req, res) => {
 
 exports.detail = async (req, res) => {
   try {
-    let user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id);
 
     return res.status(200).json(user);
   } catch (err) {
@@ -35,23 +35,23 @@ exports.store = async (req, res) => {
     return res.status(422).json(customMessageValidate(errors));
   }
   const { email, password, username } = req.body;
-  let user = await User.find({ email });
+  const user = await User.find({ email });
 
   if (user.length) {
 
     return res.status(422).json({ msg: 'The user already exists.' });
   }
   try {
-    let salt = makeSalt();
-    let passwordHash = encryptPassword(password, salt);
+    const salt = makeSalt();
+    const passwordHash = encryptPassword(password, salt);
 
-    let params = {
+    const params = {
       email: email,
       password_hash: passwordHash
       , username:username,
       salt: salt
     };
-    let userCreate = new User(params);
+    const userCreate = new User(params);
     userCreate.save();
 
     return res.status(200).json({ data: { user } });
@@ -78,3 +78,12 @@ exports.update = async (req, res) => {
   }
 };
 
+exports.delete = async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+
+    return res.status(200).json({ data: user, msg: 'delete success!' });
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};

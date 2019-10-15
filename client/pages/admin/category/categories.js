@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Avatar } from 'antd';
-import LayoutAdmin from '../../components/admin/layouts/layout';
-import { getCategories } from '../../api/admin/categories';
+import LayoutAdmin from '../../../components/Admin/Layouts/Main';
+import { getCategories } from '../../../api/admin/categories';
 
 const columns = [
   {

@@ -3,10 +3,10 @@
 const Post = require('../../models/post');
 const { validationResult } = require('express-validator');
 const { customMessageValidate } = require('../../support/helpers');
-const { postManagerByAdmin } = require('../../services/postService');
+const { getListPost } = require('../../services/admin/postService');
 exports.index = async (req, res) => {
   try {
-    let posts = await postManagerByAdmin(req);
+    const posts = await getListPost(req);
 
     return res.status(200).json(posts);
   } catch (err) {
@@ -17,7 +17,7 @@ exports.index = async (req, res) => {
 
 exports.detail = async (req, res) => {
   try {
-    let post = await Post.findById(req.params.id);
+    const post = await Post.findById(req.params.id);
 
     return res.status(200).json(post);
   } catch (err) {
@@ -34,7 +34,7 @@ exports.store = async (req, res) => {
     return res.status(422).json(customMessageValidate(errors));
   }
 
-  let post = new Post(req.body);
+  const post = new Post(req.body);
   post.save();
 
   return res.status(200).json({ data: { post } });
@@ -48,7 +48,7 @@ exports.update = async (req, res) => {
   }
 
   try {
-    let params = req.body;
+    const params = req.body;
     await Post.findByIdAndUpdate(req.params.id, { $set: params });
 
     return res.status(200).json({ data: params, msg: 'update success!' });
@@ -59,11 +59,10 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
   try {
-    let post = await Post.findByIdAndDelete(req.params.id);
+    const post = await Post.findByIdAndDelete(req.params.id);
 
     return res.status(200).json({ data: post, msg: 'delete success!' });
   } catch (err) {
     return res.status(500).json(err);
   }
 };
-

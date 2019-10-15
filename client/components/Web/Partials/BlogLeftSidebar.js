@@ -9,7 +9,7 @@ const BlogRightSidebar = () => {
     <div className="blog_left_sidebar">
       <article className="blog_wrap">
         <div className="blog_img">
-          <img className="img-fluid" src="/static/img/home-blog/blog-1.jpg" alt="" />
+          <img className="img-fluid" src="http://localhost:8000/img/imagegallary/1.jpg" alt="" />
         </div>
         <div className="blog_text">
           <div className="blog_text_inner">
