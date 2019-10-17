@@ -1,6 +1,6 @@
 .docker
 .env
 **/node_modules
-**/report.*.json
+server/**/reports/
 .idea
 client/.next

@@ -2,20 +2,30 @@
 const homeService = require('../../services/myblog/homeService');
 const { validationResult } = require('express-validator');
 const { customMessageValidate } = require('../../support/helpers');
+const logError = require('../../logger/logError');
 
-exports.index = async (req, res, next) => {
-  const errors = validationResult(req);
-
-  if (errors.array().length) {
-    return res.status(422).json(customMessageValidate(errors));
-  }
-
+exports.index = async (req, res) => {
   try {
-    const listPost = await homeService.getListPost(req);
+    const initinalData = await homeService.getInitialData(req);
 
-    return res.status(200).json(listPost);
+    return res.status(200).json(initinalData);
   } catch (err) {
+    //write Log
+    logError.error(err);
 
-    return next(err);
+    return res.status(500).json(err);
+  }
+};
+
+exports.getPost = async (req, res) => {
+  try {
+    const posts = await homeService.getListPost(req);
+
+    return res.status(200).json(posts);
+  } catch (err) {
+    //write Log error
+    logError.error(err);
+
+    return res.status(500).json(err);
   }
 };

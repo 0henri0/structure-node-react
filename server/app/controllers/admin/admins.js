@@ -4,9 +4,14 @@ const Admin = require('../../models/admin');
 const { validationResult } = require('express-validator');
 const { customMessageValidate } = require('../../support/helpers');
 const { encryptPassword, makeSalt } = require('../../services/admin/authService');
+const logInfo = require('../../logger/logInfo');
+const logError = require('../../logger/logError');
 
 exports.store = async (req, res) => {
   try {
+    //write Log info
+    logInfo.info(req);
+
     const errors = validationResult(req);
 
     if (errors.array().length) {
@@ -32,6 +37,9 @@ exports.store = async (req, res) => {
 
     return res.status(200).json({ data: { adminCreate } });
   } catch (err) {
+    //write Log info
+    logError.error(err);
+
     return res.status(500).json(err);
   }
 };
