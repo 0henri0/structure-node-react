@@ -1,35 +1,54 @@
 'use strict';
 
-const User    = require('../../models/user');
-const { validationResult }          = require('express-validator');
-const { getUsers }        = require('../../services/admin/userService');
-const { customMessageValidate }     = require('../../support/helpers');
+const User = require('../../models/user');
+const { validationResult } = require('express-validator');
+const { getUsers } = require('../../services/admin/userService');
+const { customMessageValidate } = require('../../support/helpers');
 const { encryptPassword, makeSalt } = require('../../services/admin/authService');
 const logInfo = require('../../logger/logInfo');
 const logError = require('../../logger/logError');
 
+/**
+ * Show lists users.
+ * @param {obj} req
+ * @param {obj} res
+ */
 exports.index = async (req, res) => {
   try {
     const users = await getUsers(req);
 
     return res.status(200).json(users);
   } catch (err) {
+    //write Log Error
+    logError.error(err);
 
     return res.status(500).json(err);
   }
 };
 
+/**
+ * Show detail a user.
+ * @param {obj} req
+ * @param {obj} res
+ */
 exports.detail = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
 
     return res.status(200).json(user);
   } catch (err) {
+    //write Log Error
+    logError.error(err);
 
     return res.status(500).json(err);
   }
 };
 
+/**
+ * Create a user.
+ * @param {obj} req
+ * @param {obj} res
+ */
 exports.store = async (req, res) => {
   // write Log
   logInfo.info(req);
@@ -61,6 +80,8 @@ exports.store = async (req, res) => {
 
     return res.status(200).json({ data: { user } });
   } catch (err) {
+    //write Log Error
+    logError.error(err);
 
     return res.status(500).json(err);
   }
@@ -92,6 +113,9 @@ exports.delete = async (req, res) => {
 
     return res.status(200).json({ data: user, msg: 'delete success!' });
   } catch (err) {
+    //write Log Error
+    logError.error(err);
+
     return res.status(500).json(err);
   }
 };

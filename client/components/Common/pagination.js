@@ -6,7 +6,6 @@ const PaginationComponent = () => {
   const [totalItemsCount, setTotalItemsCount] = useState(10);
 
   const handlePageChange = (pages) => {
-    console.log(pages);
     setTotalItemsCount(totalItemsCount + 5);
   };
 

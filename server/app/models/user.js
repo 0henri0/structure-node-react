@@ -25,6 +25,7 @@ const UserSchema = Schema(
       type: String,
       default: 'img/imagegallary/1.jpg',
     },
+    refresh_token: [{ type: String, default: '' }],
     deleted_at: {
       default: '',
       type: Date,

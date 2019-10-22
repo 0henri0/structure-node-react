@@ -3,15 +3,14 @@ import { Link } from '../../routes/routes';
 
 export default function ActiveLink({ children, route, params }) {
   const router = useRouter();
-
   const style = {
-    color: router.pathname === route ? 'red' : 'black',
+    color: router.asPath === route ? 'red' : '',
     marginRight: '10px',
   };
 
   return (
     <Link route={route} params={params ? params : '' }>
-      <a style={style}>{ children }</a>
+      <a className="nav-link" role="button" style={style}>{ children }</a>
     </Link>
   );
 }

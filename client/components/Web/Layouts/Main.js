@@ -2,16 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MyHeader from './Header';
 import MyFooter from './Footer';
+import { Layout } from 'antd';
+
+const { Header, Footer, Sider, Content } = Layout;
 
 export default function Main(props) {
   const { path, children, pageTitle, ogImage } = props;
 
   return (
-    <section className='layout'>
+    <Layout style={{minHeight: '100vh'}}>
       <MyHeader path={path} pageTitle={pageTitle} ogImage={ogImage} />
-      <main className='main-content'>{children}</main>
+      <Content><main className='main-content'>{children}</main></Content>
       <MyFooter />
-    </section>
+    </Layout>
   );
 }
 

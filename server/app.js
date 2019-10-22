@@ -19,12 +19,15 @@ app.set('view engine', 'pug');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(cookieParser());
+app.use(cookieParser('thai_secret'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors({
-  origin: 'http://localhost:3001'
+  origin: [
+    'http://localhost:3001',
+    'http://localhost:3000'
+  ],
+  credentials: true
 }));
-
 mongoose.connect(config.db, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
