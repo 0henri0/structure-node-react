@@ -1,7 +1,9 @@
 import React from 'react';
+import { Layout } from 'antd';
+const { Footer } = Layout;
 
-export default function Footer() {
+export default function FooterLayout() {
   return (
-    <footer>footer</footer>
+    <Footer>footer</Footer>
   );
 }

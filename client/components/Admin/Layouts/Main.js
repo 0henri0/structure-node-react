@@ -18,14 +18,7 @@ export default function Main(props) {
       <Menu collapsed={collapsed} />
       <Layout>
         <MyHeader handleToggleMenu={handleToggleMenu} collapsed={collapsed} />
-        <Content
-          style={{
-            margin: '24px 16px',
-            padding: 24,
-            background: '#fff',
-            minHeight: 280,
-          }}
-        >
+        <Content>
           {children}
         </Content>
         <MyFooter />

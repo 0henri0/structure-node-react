@@ -42,6 +42,10 @@ const PostSchema = Schema(
       type: String,
       default: ''
     },
+    view: {
+      type: Number,
+      default: 0
+    },
     content: {
       type: String,
       required: true,

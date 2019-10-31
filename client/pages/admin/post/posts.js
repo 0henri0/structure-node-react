@@ -1,8 +1,8 @@
 
 import React from 'react';
 import { Table, Avatar, Icon } from 'antd';
-import LayoutAdmin from '../../components/admin/layouts/layout';
-import { getPosts } from '../../api/admin/posts';
+import LayoutAdmin from '../../../components/Admin/Layouts/Main';
+import { getPosts } from '../../../api/admin/posts';
 
 const columns = [
   {
@@ -69,7 +69,6 @@ class Posts extends React.Component {
       .then(res => {
         const pagination = { ...this.state.pagination };
         pagination.total = res.data.count;
-        console.log(1);
         this.setState({
           loading: false,
           data: res.data.data,

@@ -2,14 +2,19 @@ import React from 'react';
 import Main from '../../../components/Web/Layouts/Main';
 import PostDetailMain from '../../../components/Web/Post/PostDetailMain';
 
-class PostDetail extends React.Component {
+class Article extends React.Component {
+  static async getInitialProps({ query }) {
+    const idPost = query.slug;
+
+    return { idPost };
+  }
   render() {
     return (
-      <Main>
-        <PostDetailMain />
+      <Main pageTitle='this is article'>
+        <PostDetailMain idPost={this.props.idPost}/>
       </Main>
     );
   }
 }
 
-export default PostDetail;
+export default Article;

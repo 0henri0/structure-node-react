@@ -10,7 +10,12 @@ exports.getInitialData = async (req) => {
     const perPageInitial = pagination.PER_PAGE_HOME_INITIAL;
     const tagInitials = await Tag.find({}).limit(perPageInitial);
 
-    const postInitials = await Post.find({}).limit(perPageInitial);
+    const postPopularInitials = await Post.find({}).limit(4).select(['image_title', 'title', 'updatedAt']);
+    postPopularInitials.forEach(post => {
+      post.image_title = getDomain(req) + post.image_title;
+    });
+
+    const postInitials = await Post.find({}).limit(perPageInitial).select(['image_title', 'title', 'content', 'updatedAt']);
     postInitials.forEach(post => {
       post.image_title = getDomain(req) + post.image_title;
     });
@@ -21,7 +26,7 @@ exports.getInitialData = async (req) => {
     });
 
     return {
-      categoriesInitial, postInitials, tagInitials
+      categoriesInitial, postInitials, tagInitials, postPopularInitials
     }
 
   } catch (err) {
@@ -29,21 +34,3 @@ exports.getInitialData = async (req) => {
   }
 };
 
-exports.getListPost = async (req) => {
-  try {
-    const perPage = pagination.PER_PAGE_HOME;
-    const perPageInitial = pagination.PER_PAGE_HOME_INITIAL;
-    const page = parseInt(req.query.page) ? parseInt(req.query.page) : 0;
-
-    const posts = await Post.find({}).limit(perPage).skip(perPage * page + perPageInitial);
-    posts.forEach(post => {
-      return post.image_title = getDomain(req) + post.image_title;
-    });
-
-    return {
-      posts
-    };
-  } catch (err) {
-    throw new Error(err);
-  }
-};
