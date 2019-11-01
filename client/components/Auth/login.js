@@ -22,7 +22,7 @@ const Login = ({ credentials }) => {
   };
 
   return (
-    <div className='row mt-4  d-flex justify-content-center'>
+    <div className='row mt-4  d-flex justify-content-center ml-0 mr-0'>
       <form className='col-4'>
         <div className="form-group">
           <label htmlFor="exampleInputEmail1">Email address</label>

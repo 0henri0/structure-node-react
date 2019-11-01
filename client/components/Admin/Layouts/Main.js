@@ -13,6 +13,7 @@ export default function Main(props) {
 
   const handleToggleMenu = () => setCollapsed(!collapsed);
 
+
   return (
     <Layout>
       <Menu collapsed={collapsed} />
