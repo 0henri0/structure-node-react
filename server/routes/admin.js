@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-
+const multer = require('multer');
+const upload = multer({dest: `public/uploads/images`});
 /*controllers */
 const categories  = require('../app/controllers/admin/categories');
 const users       = require('../app/controllers/admin/users');
@@ -54,7 +55,7 @@ router.delete('/tags/:id', tags.delete);
 
 /*-------------------------------categories-------------------------------- */
 router.get('/categories', categories.index);
-router.post('/categories/create', categoriesValidate.validate('create'), categories.store);
+router.post('/categories/create', [upload.single('avatar'), categoriesValidate.validate('create')], categories.store);
 router.put('/categories/:id/edit', categories.update);
 router.delete('/categories/:id', categories.delete);
 

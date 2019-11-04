@@ -1,104 +1,140 @@
 import React from 'react';
-import { Form, Input, DatePicker, TimePicker, Select, Cascader, InputNumber } from 'antd';
+import { Form, Input, Button, Upload, Icon, message } from 'antd';
+import { postCategory } from '../../../api/admin/categories';
 
-const { Option } = Select;
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
 
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 5 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 12 },
-  },
-};
+function beforeUpload(file) {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+  if (!isJpgOrPng) {
+    message.error('You can only upload JPG/PNG file!');
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error('Image must smaller than 2MB!');
+  }
+  return isJpgOrPng && isLt2M;
+}
 
-const CreateComponent = () => {
-  return (
-    <Form {...formItemLayout}>
-      <Form.Item
-        label="Fail"
-        validateStatus="error"
-        help="Should be combination of numbers & alphabets"
-      >
-        <Input placeholder="unavailable choice" id="error" />
-      </Form.Item>
+class CreateCategoryComponent extends React.Component {
+  state = {
+    loading: false,
+  };
 
-      <Form.Item label="Warning" validateStatus="warning">
-        <Input placeholder="Warning" id="warning" />
-      </Form.Item>
+  handleChange = info => {
+    if (info.file.status === 'uploading') {
+      this.setState({ loading: true });
+      return;
+    }
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, imageUrl =>
+        this.setState({
+          imageUrl,
+          loading: false,
+        }),
+      );
+    }
+  };
 
-      <Form.Item
-        label="Validating"
-        hasFeedback
-        validateStatus="validating"
-        help="The information is being validated..."
-      >
-        <Input placeholder="I'm the content is being validated" id="validating" />
-      </Form.Item>
+  handleSubmit = async e => {
+    e.preventDefault();
 
-      <Form.Item label="Success" hasFeedback validateStatus="success">
-        <Input placeholder="I'm the content" id="success" />
-      </Form.Item>
+    this.props.form.validateFieldsAndScroll(async (err, values) => {
+      if (!err) {
+        values.avatar = values.avatar.file.originFileObj;
+        var formData = new FormData();
+        formData.append('name', values.name);
+        formData.append('avatar', values.avatar);
+        await postCategory(formData)
+      }
+    });
+  };
 
-      <Form.Item label="Warning" hasFeedback validateStatus="warning">
-        <Input placeholder="Warning" id="warning2" />
-      </Form.Item>
 
-      <Form.Item
-        label="Fail"
-        hasFeedback
-        validateStatus="error"
-        help="Should be combination of numbers & alphabets"
-      >
-        <Input placeholder="unavailable choice" id="error2" />
-      </Form.Item>
+  render() {
+    const { getFieldDecorator } = this.props.form;
 
-      <Form.Item label="Success" hasFeedback validateStatus="success">
-        <DatePicker style={{ width: '100%' }} />
-      </Form.Item>
+    const uploadButton = (
+      <div>
+        <Icon type={this.state.loading ? 'loading' : 'plus'} />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
+    const { imageUrl } = this.state;
 
-      <Form.Item label="Warning" hasFeedback validateStatus="warning">
-        <TimePicker style={{ width: '100%' }} />
-      </Form.Item>
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 4 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 12 },
+      },
+    };
+    const tailFormItemLayout = {
+      wrapperCol: {
+        xs: {
+          span: 24,
+          offset: 0,
+        },
+        sm: {
+          span: 16,
+          offset: 9,
+        },
+      },
+    };
 
-      <Form.Item label="Error" hasFeedback validateStatus="error">
-        <Select defaultValue="1">
-          <Option value="1">Option 1</Option>
-          <Option value="2">Option 2</Option>
-          <Option value="3">Option 3</Option>
-        </Select>
-      </Form.Item>
-
-      <Form.Item
-        label="Validating"
-        hasFeedback
-        validateStatus="validating"
-        help="The information is being validated..."
-      >
-        <Cascader defaultValue={['1']} options={[]} />
-      </Form.Item>
-
-      <Form.Item label="inline" style={{ marginBottom: 0 }}>
-        <Form.Item
-          validateStatus="error"
-          help="Please select the correct date"
-          style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
-        >
-          <DatePicker />
+    return (
+      <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+        <Form.Item label="Name">
+          {getFieldDecorator('name', {
+            rules: [
+              {
+                required: true,
+                message: 'Please input name Category!',
+              },
+            ],
+          })(<Input />)}
         </Form.Item>
-        <span style={{ display: 'inline-block', width: '24px', textAlign: 'center' }}>-</span>
-        <Form.Item style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}>
-          <DatePicker />
+        <Form.Item label="Avatar">
+          {getFieldDecorator('avatar', {
+            rules: [
+              {
+                required: true,
+                message: 'Please input name Avatar Category!',
+              },
+            ],
+          })(<Upload
+            name="avatar"
+            listType="picture-card"
+            className="avatar-uploader"
+            showUploadList={false}
+            beforeUpload={beforeUpload}
+            onChange={this.handleChange}
+          >
+            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+          </Upload>)}
         </Form.Item>
-      </Form.Item>
 
-      <Form.Item label="Success" hasFeedback validateStatus="success">
-        <InputNumber style={{ width: '100%' }} />
-      </Form.Item>
-    </Form>
-  )
-};
+        <Form.Item {...tailFormItemLayout} >
+          <Button type="danger" htmlType="submit" style={{marginRight: '10px' }}>
+            Cancel
+          </Button>
+          <Button type="omitted" htmlType="submit" style={{backgroundColor: '#7FFF00' }}>
+            Create
+          </Button>
+        </Form.Item>
+      </Form>
+    );
+  }
+}
 
-export default CreateComponent;
+const WrappedRegistrationForm = Form.create({ name: 'register' })(CreateCategoryComponent);
+
+export default WrappedRegistrationForm;

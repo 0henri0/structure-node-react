@@ -23,9 +23,8 @@ exports.index = async (req, res) => {
 exports.store = async (req, res) => {
   //write Log info
   logInfo.info(req);
-
   const errors = validationResult(req);
-
+  console.log(req.file);
   if (errors.array().length) {
     return res.status(422).json(customMessageValidate(errors));
   }
