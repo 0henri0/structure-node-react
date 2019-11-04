@@ -27,22 +27,22 @@ exports.generateToken = async (auth) => {
 
 exports.getTokenByRefreshToken = async (refreshToken) => {
   try {
-      const decoded = await jwt.verify(refreshToken, configAuth.SERVER_JWT_SECRET_REFRESH_ADMIN);
-      if (!decoded || decoded.rule != constants.IS_ADMIN) {
-        throw new Error({ msg:'Unauthorized' });
-      }
+    const decoded = await jwt.verify(refreshToken, configAuth.SERVER_JWT_SECRET_REFRESH_ADMIN);
+    if (!decoded || decoded.rule != constants.IS_ADMIN) {
+      throw new Error({ msg:'Unauthorized' });
+    }
 
-      const admin = await Admin.findById(decoded._id);
-      const listRefreshToken = admin.refresh_token;
+    const admin = await Admin.findById(decoded._id);
+    const listRefreshToken = admin.refresh_token;
 
-      if (!listRefreshToken.includes(refreshToken)) {
-        throw new Error({ msg:'Unauthorized' });
-      }
+    if (!listRefreshToken.includes(refreshToken)) {
+      throw new Error({ msg:'Unauthorized' });
+    }
 
-      const token = await jwt.sign({ rule: constants.IS_ADMIN }, configAuth.SERVER_JWT_SECRET_ADMIN, { expiresIn: configAuth.JWT_EXPIRES_IN });
+    const token = await jwt.sign({ rule: constants.IS_ADMIN }, configAuth.SERVER_JWT_SECRET_ADMIN, { expiresIn: configAuth.JWT_EXPIRES_IN });
 
-      return token;
+    return token;
   } catch (error) {
     throw new Error(error);
   }
-}
+};

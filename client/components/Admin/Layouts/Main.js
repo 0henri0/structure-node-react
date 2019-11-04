@@ -22,7 +22,6 @@ export default function Main(props) {
         <Content>
           {children}
         </Content>
-        <MyFooter />
       </Layout>
     </Layout>
   );

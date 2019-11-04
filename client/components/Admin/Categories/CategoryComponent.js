@@ -8,19 +8,29 @@ const columns = [
     title: '_id',
     dataIndex: '_id',
     width: '15%',
+    key: 'id',
   },
   {
     title: 'Name',
     dataIndex: 'name',
+    key: 'name',
   },
   {
     title: 'Image',
     dataIndex: 'image',
+    key: 'image',
     render: text => <Avatar shape="square" size={64} src={text} />,
   },
   {
     title: 'Edit',
     dataIndex: '_id',
+    key: 'edit',
+    render: _id => <Icon type="edit" theme="twoTone" style={{fontSize: '16px'}} />
+  },
+  {
+    title: 'Delete',
+    dataIndex: '_id',
+    key: 'delete',
     render: _id => <Icon type="edit" theme="twoTone" style={{fontSize: '16px'}} />
   }
 ];
@@ -81,7 +91,6 @@ class CategoryComponent extends React.Component {
           />
         </Col>
       </Row>
-      <ModelCreate />
       </>
     );
   }
