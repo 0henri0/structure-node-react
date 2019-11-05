@@ -9,7 +9,7 @@ const CategorySchema = Schema(
     },
     image: {
       type: String,
-      default: 'img/imagegallary/1.jpg'
+      default: 'img/categories/default.jpg'
     }
   },
   {

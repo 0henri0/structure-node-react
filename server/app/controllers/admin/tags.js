@@ -5,10 +5,11 @@ const { validationResult } = require('express-validator');
 const { customMessageValidate } = require('../../support/helpers');
 const logInfo = require('../../logger/logInfo');
 const logError = require('../../logger/logError');
+const { getTags } = require('../../services/admin/tagService');
 
 exports.index = async (req, res) => {
   try {
-    const tags = await Tag.find({});
+    const tags = await getTags(req);
 
     return res.status(200).json(tags);
   } catch (err) {
@@ -66,7 +67,20 @@ exports.delete = async (req, res) => {
   } catch (err) {
     //write Log Error
     logError.error(err);
-    
+
+    return res.status(500).json(err);
+  }
+};
+
+exports.detail = async (req, res) => {
+  try {
+    const tag = await Tag.findById(req.params.id);
+
+    return res.status(200).json({ data: tag});
+  } catch (err) {
+    //write Log Error
+    logError.error(err);
+
     return res.status(500).json(err);
   }
 };

@@ -1,5 +1,4 @@
 const Admin = require('../../../models/admin');
-const jwt = require('jsonwebtoken');
 const { encryptPassword, generateToken, getTokenByRefreshToken } = require('../../../services/admin/authService');
 const appConfig = require('../../../../config/app');
 
@@ -23,7 +22,7 @@ exports.login = async (req, res) => {
 
     const dataResponse = {
       ...apiToken,
-    }
+    };
     const cookieOptions = appConfig.cookieOptions;
 
     return res.status(200).cookie('adminInfo', dataResponse, cookieOptions).json({
@@ -37,12 +36,16 @@ exports.login = async (req, res) => {
 
 exports.refreshToken = async (req, res) => {
   try {
-  const refreshToken = req.headers[process.env.AUTHORIZATION_HEADER_REFRESH_TOKEN];
-
+    const refreshToken = req.headers[process.env.AUTHORIZATION_HEADER_REFRESH_TOKEN] || req.signedCookies.adminInfo.refresh_token;
+    console.log(req.signedCookies.adminInfo);
     if (refreshToken) {
       const token = await getTokenByRefreshToken(refreshToken);
-
-      return res.status(200).json({ token });
+      const cookieOptions = appConfig.cookieOptions;
+      
+      return res.status(200).cookie('adminInfo', {token, refresh_token: refreshToken}, cookieOptions).json({
+        msg: 'success',
+        token
+      });
     } else {
       return res.status(401).json({ msg: 'Unauthorized' });
     }

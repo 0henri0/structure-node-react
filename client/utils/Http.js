@@ -86,7 +86,7 @@ export default class Http {
         ...finalHeaderConfig
       }
     };
-
+    
     return axios
       .request(finalConfig)
       .then(response => {
@@ -95,6 +95,7 @@ export default class Http {
       .catch(error => {
         if (error.response && error.response.status === statusCode.UNAUTHORIZED) {
           if (url != 'login') {
+            console.log(url);
             // window.location.href = 'login';
           }
         }

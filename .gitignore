@@ -4,3 +4,4 @@
 server/**/reports/
 .idea
 client/.next
+**/uploads
