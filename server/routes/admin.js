@@ -16,6 +16,7 @@ const usersValidate       = require('../app/validators/users');
 const postsValidate       = require('../app/validators/posts');
 const tagsValidate        = require('../app/validators/tags');
 const adminsValidate      = require('../app/validators/admins');
+const uploadMiddleware    = require('../app/middlewaves/uploadMiddleware');
 
 /*middlewaves */
 const { checkAdmin } = require('../app/middlewaves/jwtMiddlewave');
@@ -51,12 +52,14 @@ router.delete('/posts/:id', posts.delete);
 router.get('/tags', tags.index);
 router.post('/tags/create', tagsValidate.validate('create'), tags.store);
 router.put('/tags/:id/edit', tags.update);
+router.get('/tags/:id', tags.detail);
 router.delete('/tags/:id', tags.delete);
 
 /*-------------------------------categories-------------------------------- */
 router.get('/categories', categories.index);
-router.post('/categories/create', [upload.single('avatar'), categoriesValidate.validate('create')], categories.store);
-router.put('/categories/:id/edit', categories.update);
+router.post('/categories/create', [uploadMiddleware.single('image'), categoriesValidate.validate('create')], categories.store);
+router.put('/categories/:id/edit', uploadMiddleware.single('image'), categories.update);
+router.get('/categories/:id', categories.detail);
 router.delete('/categories/:id', categories.delete);
 
 module.exports = router;

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Form, Input, Button, Upload, Icon, message } from 'antd';
-import { postCategory } from '../../../api/admin/categories';
+import { editCategory, getDetailCategory } from '../../../api/admin/categories';
+import Router from 'next/router';
+import Link from 'next/link';
 
 function getBase64(img, callback) {
   const reader = new FileReader();
@@ -20,10 +22,14 @@ function beforeUpload(file) {
   return isJpgOrPng && isLt2M;
 }
 
-class CreateCategoryComponent extends React.Component {
+class EditComponent extends React.Component {
   state = {
     loading: false,
   };
+
+  componentDidMount() {
+    this.fetch();
+  }
 
   handleChange = info => {
     if (info.file.status === 'uploading') {
@@ -46,19 +52,36 @@ class CreateCategoryComponent extends React.Component {
 
     this.props.form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
-        values.avatar = values.avatar.file.originFileObj;
-        var formData = new FormData();
-        formData.append('name', values.name);
-        formData.append('avatar', values.avatar);
-        await postCategory(formData)
+        try {
+          values.image = values.image.file.originFileObj;
+          var formData = new FormData();
+          formData.append('name', values.name);
+          formData.append('image', values.image);
+          await editCategory(Router.query.id, formData);
+          Router.push('/admin/category/index');
+        } catch (error) {
+          message.error('Server Error!');
+        }
       }
     });
   };
 
+  fetch = () => {
+   getDetailCategory(Router.query.id)
+      .then(res => {
+        console.log(res);
+        this.setState({
+          name: res.data.data.name,
+        });
+      })
+      .catch(error => {
+        return error;
+      });
+  };
 
   render() {
     const { getFieldDecorator } = this.props.form;
-
+    const { name } = this.state;
     const uploadButton = (
       <div>
         <Icon type={this.state.loading ? 'loading' : 'plus'} />
@@ -100,34 +123,35 @@ class CreateCategoryComponent extends React.Component {
                 message: 'Please input name Category!',
               },
             ],
+            initialValue: name,
           })(<Input />)}
         </Form.Item>
-        <Form.Item label="Avatar">
-          {getFieldDecorator('avatar', {
+        <Form.Item label="Image">
+          {getFieldDecorator('image', {
             rules: [
               {
                 required: true,
-                message: 'Please input name Avatar Category!',
+                message: 'Please input Image Category!',
               },
             ],
           })(<Upload
-            name="avatar"
+            name="image"
             listType="picture-card"
-            className="avatar-uploader"
+            className="image-uploader"
             showUploadList={false}
             beforeUpload={beforeUpload}
             onChange={this.handleChange}
           >
-            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+            {imageUrl ? <img src={imageUrl} alt="image" style={{ width: '100%' }} /> : uploadButton}
           </Upload>)}
         </Form.Item>
 
         <Form.Item {...tailFormItemLayout} >
-          <Button type="danger" htmlType="submit" style={{marginRight: '10px' }}>
-            Cancel
-          </Button>
+          <Link href="/admin/category/index" as={`/admin/category/index`}>
+              <a><Button type="danger" htmlType="submit" style={{marginRight: '10px' }}>Cancel</Button></a>
+          </Link>
           <Button type="omitted" htmlType="submit" style={{backgroundColor: '#7FFF00' }}>
-            Create
+            Edit
           </Button>
         </Form.Item>
       </Form>
@@ -135,6 +159,6 @@ class CreateCategoryComponent extends React.Component {
   }
 }
 
-const WrappedRegistrationForm = Form.create({ name: 'register' })(CreateCategoryComponent);
+const WrappedEditForm = Form.create({ name: 'edit' })(EditComponent);
 
-export default WrappedRegistrationForm;
+export default WrappedEditForm;

@@ -1,41 +1,9 @@
 import React from 'react';
-import { Table, Avatar, Row, Col, Icon } from 'antd';
-import { getCategories } from '../../../api/admin/categories';
-import ModelCreate from './partials/ModelCreate';
+import { Table, Row, Col, Icon, message } from 'antd';
+import { getTags, deleteTag } from '../../../api/admin/tags';
+import Link from 'next/link';
 
-const columns = [
-  {
-    title: '_id',
-    dataIndex: '_id',
-    width: '15%',
-    key: 'id',
-  },
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: 'Image',
-    dataIndex: 'image',
-    key: 'image',
-    render: text => <Avatar shape="square" size={64} src={text} />,
-  },
-  {
-    title: 'Edit',
-    dataIndex: '_id',
-    key: 'edit',
-    render: _id => <Icon type="edit" theme="twoTone" style={{fontSize: '16px'}} />
-  },
-  {
-    title: 'Delete',
-    dataIndex: '_id',
-    key: 'delete',
-    render: _id => <Icon type="edit" theme="twoTone" style={{fontSize: '16px'}} />
-  }
-];
-
-class CategoryComponent extends React.Component {
+class IndexComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -47,6 +15,17 @@ class CategoryComponent extends React.Component {
 
   componentDidMount() {
     this.fetch();
+  }
+
+  handleDelete = async (_id) => {
+    try {
+      await deleteTag(_id);
+      await this.fetch();
+      message.success('Delete success!');
+    } catch (error) {
+      message.error('Delete Fail!');
+    }
+
   }
 
   handleTableChange = (pagination) => {
@@ -61,7 +40,7 @@ class CategoryComponent extends React.Component {
   fetch = ({ ...params }) => {
 
     this.setState({ loading: true });
-    getCategories(params.pageCurrent)
+    getTags(params.pageCurrent)
       .then(res => {
         const pagination = { ...this.state.pagination };
         pagination.total = res.data.count;
@@ -77,6 +56,36 @@ class CategoryComponent extends React.Component {
   };
 
   render() {
+    const columns = [
+      {
+        title: '_id',
+        dataIndex: '_id',
+        width: '15%',
+        key: 'id',
+      },
+      {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: 'Edit',
+        dataIndex: '_id',
+        key: 'edit',
+        render: _id =>
+          <Link href="/admin/tag/[id]/edit" as={`/admin/tag/${_id}/edit`}>
+              <a><Icon type="edit" theme="twoTone" style={{fontSize: '16px'}} /></a>
+          </Link>
+      },
+      {
+        title: 'Delete',
+        dataIndex: '_id',
+        key: 'delete',
+        render: _id =>
+          <Icon type="delete" theme="twoTone" onClick={() => this.handleDelete(_id)} style={{fontSize: '16px'}} />
+      }
+    ];
+
     return (
       <>
       <Row>
@@ -96,4 +105,4 @@ class CategoryComponent extends React.Component {
   }
 }
 
-export default CategoryComponent;
+export default IndexComponent;

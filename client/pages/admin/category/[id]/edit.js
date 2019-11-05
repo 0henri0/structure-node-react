@@ -1,15 +1,16 @@
 import React from 'react';
 import LayoutAdmin from '../../../../components/Admin/Layouts/Main';
-import EditCategoryComponent from '../../../../components/Admin/Categories/EditCategoryComponent';
+import EditCategoryComponent from '../../../../components/Admin/Categories/EditComponent';
 
-class IndexCategories extends React.Component {
+class EditCategory extends React.Component {
   render() {
+    const CREATE_LINK = '/admin/category/create';
     return (
-      <LayoutAdmin>
+      <LayoutAdmin createLink={CREATE_LINK}>
         <EditCategoryComponent />
       </LayoutAdmin>
     );
   }
 }
 
-export default IndexCategories;
+export default EditCategory;

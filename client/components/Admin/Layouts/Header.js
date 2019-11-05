@@ -1,13 +1,10 @@
 import React from 'react';
 import { Layout, Icon, Row, Col, Button } from 'antd';
-import * as actions from '../../../modules/admin/actions';
-import { connect } from 'react-redux';
 const { Header } = Layout;
 
 class MyHeader extends React.Component {
   render() {
-    const { handleToggleMenu, collapsed } = this.props;
-
+    const { handleToggleMenu, collapsed, handleCreateLink } = this.props;
     return (
       <Header style={{ background: '#fff'}}>
          <Row>
@@ -19,7 +16,7 @@ class MyHeader extends React.Component {
           />
           </Col>
           <Col span={8} offset={8}>
-            <Button type="danger">Cteate</Button>
+            <Button type="danger" onClick={handleCreateLink}>Cteate</Button>
           </Col>
         </Row>
       </Header>
