@@ -52,7 +52,7 @@ const PostSchema = Schema(
     },
     user: {
       type: Schema.ObjectId,
-      ref: 'User'
+      ref: 'User',
     },
     comments: [CommentPost],
     rates: [RatePost],
@@ -64,7 +64,7 @@ const PostSchema = Schema(
     ],
     category: {
       type: Schema.ObjectId,
-      ref: 'Category'
+      ref: 'Category',
     },
     deletedAt: {
       type: Date,

@@ -44,7 +44,7 @@ router.delete('/users/:id', users.detail);
 /*-------------------------------posts------------------------------------- */
 router.get('/posts', posts.index);
 router.get('/posts/:id', posts.detail);
-router.post('/posts/create', postsValidate.validate('create'), posts.store);
+router.post('/posts/create', [uploadMiddleware.single('image_title'), postsValidate.validate('create')], posts.store);
 router.put('/posts/:id/edit', posts.update);
 router.delete('/posts/:id', posts.delete);
 

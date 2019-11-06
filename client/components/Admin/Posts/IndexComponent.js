@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table, Avatar, Row, Col, Icon, message } from 'antd';
-import { getCategories, deleteCategory } from '../../../api/admin/categories';
+import { getPosts, deletePost } from '../../../api/admin/posts';
 import Link from 'next/link';
 
 class IndexComponent extends React.Component {
@@ -19,13 +19,12 @@ class IndexComponent extends React.Component {
 
   handleDelete = async (_id) => {
     try {
-      await deleteCategory(_id);
+      await deletePost(_id);
       await this.fetch({pageCurrent: (this.state.pagination.current-1)});
       message.success('Delete success!');
     } catch (error) {
       message.error('Delete Fail!');
     }
-
   }
 
   handleTableChange = (pagination) => {
@@ -34,13 +33,13 @@ class IndexComponent extends React.Component {
     this.setState({
       pagination: pager,
     });
+
     this.fetch({ pageCurrent: (pagination.current - 1) });
   };
 
   fetch = ({ ...params }) => {
-
     this.setState({ loading: true });
-    getCategories(params.pageCurrent)
+    getPosts(params.pageCurrent)
       .then(res => {
         const pagination = { ...this.state.pagination };
         pagination.total = res.data.count;
@@ -58,21 +57,34 @@ class IndexComponent extends React.Component {
   render() {
     const columns = [
       {
-        title: '_id',
-        dataIndex: '_id',
+        title: 'Title',
+        dataIndex: 'title',
+        key: 'title',
         width: '15%',
-        key: 'id',
-      },
-      {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
       },
       {
         title: 'Image',
-        dataIndex: 'image',
+        dataIndex: 'image_title',
         key: 'image',
+        width: '10%',
         render: text => <Avatar shape="square" size={64} src={text} />,
+      },
+      {
+        title: 'Content',
+        dataIndex: 'content',
+        render: text => <p>{text.substr(0, 50)}...</p>,
+        width: '30%',
+      },
+      {
+      title: 'Draft',
+      dataIndex: 'draft',
+      render: value => {
+        if (value) {
+          return <Icon style={{ fontSize: '16px' }} type="check-circle" theme="twoTone" twoToneColor="#52c41a" />
+        }
+
+        return <Icon style={{ fontSize: '16px' }} theme="twoTone" type="close-circle" twoToneColor="#eb2f96" />
+      }
       },
       {
         title: 'Edit',

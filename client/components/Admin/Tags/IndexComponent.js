@@ -20,7 +20,7 @@ class IndexComponent extends React.Component {
   handleDelete = async (_id) => {
     try {
       await deleteTag(_id);
-      await this.fetch();
+      await this.fetch({pageCurrent: (this.state.pagination.current-1)});
       message.success('Delete success!');
     } catch (error) {
       message.error('Delete Fail!');

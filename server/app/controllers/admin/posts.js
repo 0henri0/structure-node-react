@@ -15,7 +15,7 @@ exports.index = async (req, res) => {
   } catch (err) {
     //write Log Error
     logError.error(err);
-    
+
     return res.status(500).json(err);
   }
 };
@@ -43,7 +43,10 @@ exports.store = async (req, res) => {
     return res.status(422).json(customMessageValidate(errors));
   }
 
-  const post = new Post(req.body);
+  let path = req.file.path;
+  path = path.replace('public/', '');
+
+  const post = new Post({...req.body, image_title: path});
   post.save();
 
   return res.status(200).json({ data: { post } });
