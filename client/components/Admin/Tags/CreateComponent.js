@@ -4,7 +4,6 @@ import { postTag } from '../../../api/admin/tags';
 import Router from 'next/router';
 import Link from 'next/link';
 
-
 class CreateComponent extends React.Component {
   state = {
     loading: false,

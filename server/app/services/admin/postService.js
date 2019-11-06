@@ -8,7 +8,11 @@ exports.getListPost = async (req) => {
     const perPage = pagination.PER_PAGE_ADMIN;
     const page = parseInt(req.query.page) ? parseInt(req.query.page) : 0;
     const count = await Post.countDocuments();
-    const data = await Post.find({}).limit(perPage).skip(perPage * page);
+    const data = await Post
+                        .find({})
+                        .populate({ path: 'category', select: 'name' })
+                        .populate({ path: 'user', select: 'username' })
+                        .limit(perPage).skip(perPage * page);
 
     data.forEach(post => {
       post['image_title'] = getDomain(req) + post['image_title'];

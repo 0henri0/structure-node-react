@@ -1,13 +1,13 @@
 import React from 'react';
 import LayoutAdmin from '../../../components/Admin/Layouts/Main';
-import CreateCategoryComponent from '../../../components/Admin/Categories/CreateComponent';
+import CreateComponent from '../../../components/Admin/Posts/CreateComponent';
 
 class CreateCategory extends React.Component {
   render() {
-    const CREATE_LINK = '/admin/category/create';
+    const CREATE_LINK = '/admin/posts/create';
     return (
       <LayoutAdmin createLink={CREATE_LINK}>
-        <CreateCategoryComponent />
+        <CreateComponent />
       </LayoutAdmin>
     );
   }

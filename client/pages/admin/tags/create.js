@@ -4,7 +4,7 @@ import CreateComponent from '../../../components/Admin/Tags/CreateComponent';
 
 class CreateTag extends React.Component {
   render() {
-    const CREATE_LINK = '/admin/tag/create';
+    const CREATE_LINK = '/admin/tags/create';
     return (
       <LayoutAdmin createLink={CREATE_LINK}>
         <CreateComponent />
