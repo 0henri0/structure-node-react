@@ -84,3 +84,16 @@ exports.detail = async (req, res) => {
     return res.status(500).json(err);
   }
 };
+
+exports.all = async (req, res) => {
+  try {
+    const tags = await Tag.find({});
+
+    return res.status(200).json({tags});
+  } catch (err) {
+    //write Log Error
+    logError.error(err);
+
+    return res.status(500).json(err);
+  }
+};

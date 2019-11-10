@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Category = mongoose.model('Category');
 const pagination = require('../../../config/pagination');
 const { getDomain } = require('../../support/helpers');
-const fs = require('fs')
+const fs = require('fs');
 
 exports.getListCategories = async (req) => {
   try {
@@ -33,7 +33,9 @@ exports.updateCategory = async (req) => {
     let pathNew = req.file.path.replace('public/', '');
 
     if (pathOld) {
-      fs.unlinkSync('public/' + pathOld);
+      fs.unlink('public/' + pathOld, function(){
+        // do somethings
+      });
     }
 
     category.name = req.body.name;
@@ -42,10 +44,29 @@ exports.updateCategory = async (req) => {
 
     return {
       category
-    }
+    };
   } catch (error) {
-    fs.unlinkSync(req.file.path);
+    fs.unlink(req.file.path, function(){
+      // do somethings
+    });
 
     throw new Error(error);
   }
-}
+};
+
+
+exports.getListCategoriesAll = async (req) => {
+  try {
+    const categories = await Category.find({});
+
+    categories.forEach(category => {
+      category['image'] = getDomain(req) + category['image'];
+    });
+
+    return {
+      categories
+    };
+  } catch (err) {
+    throw new Error(err);
+  }
+};

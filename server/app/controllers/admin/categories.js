@@ -3,7 +3,7 @@
 const Category = require('../../models/category');
 const { validationResult } = require('express-validator');
 const { customMessageValidate } = require('../../support/helpers');
-const { getListCategories, updateCategory } = require('../../services/admin/categoryService');
+const { getListCategories, updateCategory, getListCategoriesAll } = require('../../services/admin/categoryService');
 const logInfo = require('../../logger/logInfo');
 const logError = require('../../logger/logError');
 
@@ -92,3 +92,15 @@ exports.detail = async (req, res) => {
   }
 };
 
+exports.all = async (req, res) => {
+  try {
+    const categories = await getListCategoriesAll(req);
+
+    return res.status(200).json(categories);
+  } catch (err) {
+    //write Log Error
+    logError.error(err);
+
+    return res.status(500).json(err);
+  }
+};

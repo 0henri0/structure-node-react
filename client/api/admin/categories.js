@@ -19,3 +19,7 @@ export const getDetailCategory = (id) => {
 export const deleteCategory = (id) => {
   return new Http().delete(`admin/categories/${id}`);
 };
+
+export const getCategoriesAll = () => {
+  return new Http().get(`admin/categories/all`);
+};

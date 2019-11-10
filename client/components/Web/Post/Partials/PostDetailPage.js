@@ -1,8 +1,10 @@
 import React from 'react';
 import { Row, Col } from  'react-bootstrap';
+import renderHTML from 'react-render-html';
 import '../../../../styles/blog_post_detail.less';
 
 export default function PostDetailPage({postDetail}) {
+
   return (
     <div className="main_blog_details">
     <Row>
@@ -33,7 +35,7 @@ export default function PostDetailPage({postDetail}) {
     </Row>
     <Row>
       <Col>
-        {postDetail.content}
+      {renderHTML(postDetail.content+'')}
       </Col>
     </Row>
 

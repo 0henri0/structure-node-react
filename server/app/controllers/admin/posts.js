@@ -42,10 +42,9 @@ exports.store = async (req, res) => {
   if (errors.array().length) {
     return res.status(422).json(customMessageValidate(errors));
   }
-
   let path = req.file.path;
   path = path.replace('public/', '');
-
+  console.log(JSON.stringify({...req.body, image_title: path}));
   const post = new Post({...req.body, image_title: path});
   post.save();
 

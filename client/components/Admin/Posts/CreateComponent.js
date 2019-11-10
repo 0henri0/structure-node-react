@@ -1,32 +1,23 @@
 import React from 'react';
-import { Form, Input, Button, Upload, Icon, message, Row, Col } from 'antd';
+import { Avatar, Form, Input, Button, Upload, Icon, message, Radio, Select } from 'antd';
 import { postPost } from '../../../api/admin/posts';
+import { getCategoriesAll } from '../../../api/admin/categories';
+import { getTagsAll } from '../../../api/admin/tags';
 import Router from 'next/router';
 import Link from 'next/link';
 import QuillNoSSRWrapper from '../../Common/QuillNoSSRWrapper';
+import { getBase64, beforeUpload } from '../../../helpers/uploadImage';
+import _ from 'lodash';
 
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
 
-function beforeUpload(file) {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
-  }
-  return isJpgOrPng && isLt2M;
-}
+const { Option } = Select;
 
 class CreateComponent extends React.Component {
   state = {
     loading: false,
-    textInput: ''
+    textInput: '',
+    categoriesInitial: [],
+    tagsInitial: []
   };
 
   handleChange = info => {
@@ -51,16 +42,29 @@ class CreateComponent extends React.Component {
     this.props.form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
         try {
-          values.image_title = values.image_title.file.originFileObj;
           var formData = new FormData();
-          formData.append('title', values.title);
-          formData.append('image_title', values.image_title);
+          _.map(values, (value, key) => {
+            if (Array.isArray(value)) {
+              _.map(value, (item) => {
+                formData.append(key + '[]', item)
+              })
+
+              return;
+            }
+            if (value['file']) {
+              formData.append(key, value.file.originFileObj);
+
+              return;
+            }
+
+            formData.append(key, value);
+          })
+
           formData.append('content', this.state.textInput);
-          console.log(formData);
+
           await postPost(formData);
-          // Router.push('/admin/category/index');
+          Router.push('/admin/posts/index');
         } catch (error) {
-          console.log(error);
           message.error('Server Error!');
         }
       }
@@ -69,6 +73,32 @@ class CreateComponent extends React.Component {
 
   handleChangeInputArea = (textInput) => {
     this.setState({ textInput })
+  }
+
+  fetch = () => {
+    getCategoriesAll()
+       .then(res => {
+         this.setState({
+           categoriesInitial: res.data.categories,
+         });
+       })
+       .catch(error => {
+         return error;
+       });
+
+    getTagsAll()
+       .then(res => {
+        this.setState({
+          tagsInitial: res.data.tags,
+        });
+       })
+       .catch(error => {
+        return error;
+      });
+   };
+
+  componentDidMount() {
+    this.fetch();
   }
 
   render() {
@@ -117,6 +147,24 @@ class CreateComponent extends React.Component {
             ],
           })(<Input />)}
         </Form.Item>
+
+        <Form.Item label="Draft">
+          {getFieldDecorator('draft', {
+            rules: [
+              {
+                required: true,
+                message: 'Please select draft!',
+              },
+            ],
+            initialValue: 1
+          })(
+            <Radio.Group>
+              <Radio value={1}>Available</Radio>
+              <Radio value={0}>Unavailable</Radio>
+            </Radio.Group>
+          )}
+        </Form.Item>
+
         <Form.Item label="image_title">
           {getFieldDecorator('image_title', {
             rules: [
@@ -136,12 +184,44 @@ class CreateComponent extends React.Component {
             {imageUrl ? <img src={imageUrl} alt="image_title" style={{ width: '100%' }} /> : uploadButton}
           </Upload>)}
         </Form.Item>
-        <Row>
-          <Col xs={{span: 24}} sm={{ span: 4 }} style={{textAlign: 'right'}} ><b>Content:</b></Col>
-          <Col xs={{span: 24}} sm={{ span: 12 }}><QuillNoSSRWrapper handleChangeInputArea={this.handleChangeInputArea}/></Col>
-        </Row>
+
+        <Form.Item label="Content" class='ant-form-item-required'>
+          <QuillNoSSRWrapper handleChangeInputArea={this.handleChangeInputArea}/>
+        </Form.Item>
+
+        <Form.Item label="Category">
+          {getFieldDecorator('category')(
+            <Select>
+              {this.state.categoriesInitial.map((value, key)=> {
+                return (
+                  <Option key={key} value={value._id}>
+                  <span role="img" aria-label={value.name}>
+                    <Avatar shape="square" size="small" src={value.image} />
+                  </span>
+                    {' ' + value.name}
+                  </Option>
+                )
+              })}
+            </Select>
+          )}
+        </Form.Item>
+
+        <Form.Item label="Tag">
+          {getFieldDecorator('tags')(
+            <Select  mode="multiple" placeholder="Please select">
+              {this.state.tagsInitial.map((value, key)=> {
+                return (
+                  <Option key={key} value={value._id}>
+                    {' ' + value.name}
+                  </Option>
+                )
+              })}
+            </Select>
+          )}
+        </Form.Item>
+
         <Form.Item {...tailFormItemLayout} >
-          <Link href="/admin/category/index" as={`/admin/category/index`}>
+          <Link href="/admin/posts/index" as={`/admin/posts/index`}>
               <a><Button type="danger" htmlType="submit" style={{marginRight: '10px' }}>Cancel</Button></a>
           </Link>
           <Button type="omitted" htmlType="submit" style={{backgroundColor: '#7FFF00' }}>

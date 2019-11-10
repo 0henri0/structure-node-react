@@ -20,3 +20,7 @@ export const getDetailTag = (id) => {
 export const deleteTag = (id) => {
   return new Http().delete(`admin/tags/${id}`);
 };
+
+export const getTagsAll = () => {
+  return new Http().get(`admin/tags/all`);
+};

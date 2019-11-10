@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Tag = mongoose.model('Tag');
 const pagination = require('../../../config/pagination');
-const { getDomain } = require('../../support/helpers');
 
 exports.getTags = async (req) => {
   try {

@@ -57,8 +57,9 @@ class EditComponent extends React.Component {
           var formData = new FormData();
           formData.append('name', values.name);
           formData.append('image', values.image);
+          
           await editCategory(Router.query.id, formData);
-          Router.push('/admin/category/index');
+          Router.push('/admin/categories/index');
         } catch (error) {
           message.error('Server Error!');
         }
