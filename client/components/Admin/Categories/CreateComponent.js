@@ -54,7 +54,7 @@ class CreateComponent extends React.Component {
           formData.append('name', values.name);
           formData.append('image', values.image);
           await postCategory(formData);
-          Router.push('/admin/category/index');
+          Router.push('/admin/categories/index');
         } catch (error) {
           message.error('Server Error!');
         }
@@ -129,7 +129,7 @@ class CreateComponent extends React.Component {
         </Form.Item>
 
         <Form.Item {...tailFormItemLayout} >
-          <Link href="/admin/category/index" as={`/admin/category/index`}>
+          <Link href="/admin/category/index" as={`/admin/categories/index`}>
               <a><Button type="danger" htmlType="submit" style={{marginRight: '10px' }}>Cancel</Button></a>
           </Link>
           <Button type="omitted" htmlType="submit" style={{backgroundColor: '#7FFF00' }}>

@@ -79,7 +79,7 @@ class IndexComponent extends React.Component {
         dataIndex: '_id',
         key: 'edit',
         render: _id =>
-          <Link href="/admin/category/[id]/edit" as={`/admin/category/${_id}/edit`}>
+          <Link href="/admin/categories/[id]/edit" as={`/admin/categories/${_id}/edit`}>
               <a><Icon type="edit" theme="twoTone" style={{fontSize: '16px'}} /></a>
           </Link>
       },
