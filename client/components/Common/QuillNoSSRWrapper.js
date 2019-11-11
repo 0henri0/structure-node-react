@@ -11,13 +11,17 @@ const QuillNoSSRWrapper = dynamic(
 class Editor extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { editorHtml: ''}
+    this.state = {editorHtml: null}
     this.handleChange = this.handleChange.bind(this)
   }
 
   handleChange (html) {
     this.setState({ editorHtml: html });
     this.props.handleChangeInputArea(html);
+  }
+
+  changeDefaultValue(value) {
+    this.state.editorHtml = value
   }
 
   render () {

@@ -1,18 +1,27 @@
 import React from 'react';
-import { Form, Input, Button, Upload, Icon, message } from 'antd';
-import { editCategory, getDetailCategory } from '../../../api/admin/categories';
+import { Avatar, Form, Input, Button, Upload, Icon, message, Radio, Select } from 'antd';
+import { editPost, getDetailPost } from '../../../api/admin/posts';
+import { getCategoriesAll } from '../../../api/admin/categories';
+import { getTagsAll } from '../../../api/admin/tags';
 import Router from 'next/router';
 import Link from 'next/link';
+import QuillNoSSRWrapper from '../../Common/QuillNoSSRWrapper';
 import { getBase64, beforeUpload } from '../../../helpers/uploadImage';
+import _ from 'lodash';
+
+
+const { Option } = Select;
 
 class EditComponent extends React.Component {
   state = {
     loading: false,
+    textInput: 'abdcjkdlajskld',
+    categoriesInitial: [],
+    tagsInitial: [],
+    postInitial: {}
   };
 
-  componentDidMount() {
-    this.fetch();
-  }
+  editorRef = React.createRef();
 
   handleChange = info => {
     if (info.file.status === 'uploading') {
@@ -36,12 +45,28 @@ class EditComponent extends React.Component {
     this.props.form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
         try {
-          values.image = values.image.file.originFileObj;
           var formData = new FormData();
-          formData.append('name', values.name);
-          formData.append('image', values.image);
-          await editCategory(Router.query.id, formData);
-          Router.push('/admin/category/index');
+          _.map(values, (value, key) => {
+            if (Array.isArray(value)) {
+              _.map(value, (item) => {
+                formData.append(key + '[]', item)
+              })
+
+              return;
+            }
+            if (value['file']) {
+              formData.append(key, value.file.originFileObj);
+
+              return;
+            }
+
+            formData.append(key, value);
+          })
+
+          formData.append('content', this.state.textInput);
+
+          await editPost(formData);
+          Router.push('/admin/posts/index');
         } catch (error) {
           message.error('Server Error!');
         }
@@ -49,29 +74,59 @@ class EditComponent extends React.Component {
     });
   };
 
+  handleChangeInputArea = (textInput) => {
+    // this.setState({ textInput })
+  }
+
   fetch = () => {
-   getDetailCategory(Router.query.id)
-      .then(res => {
-        console.log(res);
+    getCategoriesAll()
+       .then(res => {
+         this.setState({
+           categoriesInitial: res.data.categories,
+         });
+       })
+       .catch(error => {
+         return error;
+       });
+
+    getTagsAll()
+       .then(res => {
         this.setState({
-          name: res.data.data.name,
+          tagsInitial: res.data.tags,
         });
+       })
+       .catch(error => {
+        return error;
+      });
+
+    getDetailPost(Router.query.id)
+      .then(res => {
+        this.editorRef.current.changeDefaultValue(res.data.content)
+        this.setState({
+          postInitial: res.data
+        })
       })
       .catch(error => {
         return error;
       });
-  };
+
+   };
+
+  componentDidMount() {
+    this.fetch();
+  }
+
+
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { name } = this.state;
+    const { imageUrl, textInput } = this.state;
     const uploadButton = (
       <div>
         <Icon type={this.state.loading ? 'loading' : 'plus'} />
         <div className="ant-upload-text">Upload</div>
       </div>
     );
-    const { imageUrl } = this.state;
 
     const formItemLayout = {
       labelCol: {
@@ -98,43 +153,95 @@ class EditComponent extends React.Component {
 
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-        <Form.Item label="Name">
-          {getFieldDecorator('name', {
+        <Form.Item label="Title">
+          {getFieldDecorator('title', {
             rules: [
               {
                 required: true,
-                message: 'Please input name Category!',
+                message: 'Please input title Post!',
               },
             ],
-            initialValue: name,
           })(<Input />)}
         </Form.Item>
-        <Form.Item label="Image">
-          {getFieldDecorator('image', {
+
+        <Form.Item label="Draft">
+          {getFieldDecorator('draft', {
             rules: [
               {
                 required: true,
-                message: 'Please input Image Category!',
+                message: 'Please select draft!',
+              },
+            ],
+            initialValue: 1
+          })(
+            <Radio.Group>
+              <Radio value={1}>Available</Radio>
+              <Radio value={0}>Unavailable</Radio>
+            </Radio.Group>
+          )}
+        </Form.Item>
+
+        <Form.Item label="image_title">
+          {getFieldDecorator('image_title', {
+            rules: [
+              {
+                required: true,
+                message: 'Please input image_title Post!',
               },
             ],
           })(<Upload
-            name="image"
+            name="image_title"
             listType="picture-card"
-            className="image-uploader"
+            className="image_title-uploader"
             showUploadList={false}
             beforeUpload={beforeUpload}
             onChange={this.handleChange}
           >
-            {imageUrl ? <img src={imageUrl} alt="image" style={{ width: '100%' }} /> : uploadButton}
+            {imageUrl ? <img src={imageUrl} alt="image_title" style={{ width: '100%' }} /> : uploadButton}
           </Upload>)}
         </Form.Item>
 
+        <Form.Item label="Content">
+          <QuillNoSSRWrapper ref={ this.editorRef } value={this.state.textInput} handleChangeInputArea={this.handleChangeInputArea}/>
+        </Form.Item>
+
+        <Form.Item label="Category">
+          {getFieldDecorator('category')(
+            <Select>
+              {this.state.categoriesInitial.map((value, key)=> {
+                return (
+                  <Option key={key} value={value._id}>
+                  <span role="img" aria-label={value.name}>
+                    <Avatar shape="square" size="small" src={value.image} />
+                  </span>
+                    {' ' + value.name}
+                  </Option>
+                )
+              })}
+            </Select>
+          )}
+        </Form.Item>
+
+        <Form.Item label="Tag">
+          {getFieldDecorator('tags')(
+            <Select  mode="multiple" placeholder="Please select">
+              {this.state.tagsInitial.map((value, key)=> {
+                return (
+                  <Option key={key} value={value._id}>
+                    {' ' + value.name}
+                  </Option>
+                )
+              })}
+            </Select>
+          )}
+        </Form.Item>
+
         <Form.Item {...tailFormItemLayout} >
-          <Link href="/admin/category/index" as={`/admin/category/index`}>
+          <Link href="/admin/posts/index" as={`/admin/posts/index`}>
               <a><Button type="danger" htmlType="submit" style={{marginRight: '10px' }}>Cancel</Button></a>
           </Link>
           <Button type="omitted" htmlType="submit" style={{backgroundColor: '#7FFF00' }}>
-            Edit
+            Create
           </Button>
         </Form.Item>
       </Form>
@@ -142,6 +249,6 @@ class EditComponent extends React.Component {
   }
 }
 
-const WrappedEditForm = Form.create({ name: 'edit' })(EditComponent);
+const WrappedRegistrationForm = Form.create({ name: 'edit' })(EditComponent);
 
-export default WrappedEditForm;
+export default WrappedRegistrationForm;

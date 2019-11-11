@@ -57,7 +57,7 @@ class EditComponent extends React.Component {
           var formData = new FormData();
           formData.append('name', values.name);
           formData.append('image', values.image);
-          
+
           await editCategory(Router.query.id, formData);
           Router.push('/admin/categories/index');
         } catch (error) {
@@ -70,7 +70,6 @@ class EditComponent extends React.Component {
   fetch = () => {
    getDetailCategory(Router.query.id)
       .then(res => {
-        console.log(res);
         this.setState({
           name: res.data.data.name,
         });
