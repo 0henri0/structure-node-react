@@ -15,7 +15,7 @@ const { Option } = Select;
 class EditComponent extends React.Component {
   state = {
     loading: false,
-    textInput: 'abdcjkdlajskld',
+    textInput: '',
     categoriesInitial: [],
     tagsInitial: [],
     postInitial: {}
@@ -65,7 +65,7 @@ class EditComponent extends React.Component {
 
           formData.append('content', this.state.textInput);
 
-          await editPost(formData);
+          await editPost(Router.query.id, formData);
           Router.push('/admin/posts/index');
         } catch (error) {
           message.error('Server Error!');
@@ -75,48 +75,40 @@ class EditComponent extends React.Component {
   };
 
   handleChangeInputArea = (textInput) => {
-    // this.setState({ textInput })
+    this.setState({ textInput })
   }
 
-  fetch = () => {
-    getCategoriesAll()
-       .then(res => {
-         this.setState({
-           categoriesInitial: res.data.categories,
-         });
-       })
-       .catch(error => {
-         return error;
-       });
+  fetch = async () => {
+    try {
+      let categoriesInitial = await getCategoriesAll();
+      let tagsInitial = await getTagsAll();
+      let postInitial = await getDetailPost(Router.query.id);
 
-    getTagsAll()
-       .then(res => {
-        this.setState({
-          tagsInitial: res.data.tags,
-        });
-       })
-       .catch(error => {
-        return error;
-      });
-
-    getDetailPost(Router.query.id)
-      .then(res => {
-        this.editorRef.current.changeDefaultValue(res.data.content)
-        this.setState({
-          postInitial: res.data
-        })
-      })
-      .catch(error => {
-        return error;
-      });
-
+      return {
+        categoriesInitial: categoriesInitial.data.categories,
+        tagsInitial: tagsInitial.data.tags,
+        postInitial: postInitial.data
+      }
+    } catch (error) {
+      return new Error(error);
+    }
    };
 
   componentDidMount() {
-    this.fetch();
+    this.fetch().then(res => {
+      this.editorRef.current.changeDefaultValue(res.postInitial.content)
+      this.setState({
+        textInput: res.postInitial.content,
+        categoriesInitial: res.categoriesInitial,
+        tagsInitial: res.tagsInitial,
+        postInitial: res.postInitial
+      })
+    })
+    .catch(e => {
+      console.log(e);
+      message.error('server is Error!');
+    })
   }
-
-
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -202,7 +194,7 @@ class EditComponent extends React.Component {
         </Form.Item>
 
         <Form.Item label="Content">
-          <QuillNoSSRWrapper ref={ this.editorRef } value={this.state.textInput} handleChangeInputArea={this.handleChangeInputArea}/>
+          <QuillNoSSRWrapper ref={ this.editorRef } value={textInput} handleChangeInputArea={this.handleChangeInputArea}/>
         </Form.Item>
 
         <Form.Item label="Category">
