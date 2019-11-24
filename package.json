@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "ahihi",
   "scripts": {
-    "test": "cd client && npm run test && cd ../server && npm run test",
+    "eslint": "cd client && npm run eslint && cd ../server && npm run eslint",
     "setup": "npm install && cd client && npm install && cd ../server && npm install",
     "dev": "concurrently \"npm run client\" \"npm run server\"",
+    "dev:next": "concurrently \"npm run client-next\" \"npm run server\"",
     "client": "npm run dev:server --prefix client",
-    "server": "npm run dev --prefix server"
+    "server": "npm run dev --prefix server",
+    "client-next": "npm run dev --prefix client"
   },
   "keywords": [],
   "author": "",

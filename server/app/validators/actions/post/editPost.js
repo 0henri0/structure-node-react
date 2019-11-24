@@ -9,9 +9,9 @@ let checkTitleEdit = () => {
 
 let checkContentEdit = () => {
   return check('content')
-  .not()
-  .isEmpty()
-  .withMessage('contents not empty.');
+    .not()
+    .isEmpty()
+    .withMessage('contents not empty.');
 };
 
 module.exports = {

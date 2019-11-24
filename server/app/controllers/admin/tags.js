@@ -3,10 +3,13 @@
 const Tag = require('../../models/tag');
 const { validationResult } = require('express-validator');
 const { customMessageValidate } = require('../../support/helpers');
+const logInfo = require('../../logger/logInfo');
+const logError = require('../../logger/logError');
+const { getTags } = require('../../services/admin/tagService');
 
-exports.index = async function (req, res) {
+exports.index = async (req, res) => {
   try {
-    let tags = await Tag.find({});
+    const tags = await getTags(req);
 
     return res.status(200).json(tags);
   } catch (err) {
@@ -15,7 +18,10 @@ exports.index = async function (req, res) {
   }
 };
 
-exports.store = async function (req, res) {
+exports.store = async (req, res) => {
+  // write Log
+  logInfo.info(req);
+
   const errors = validationResult(req);
 
   if (errors.array().length) {
@@ -23,7 +29,7 @@ exports.store = async function (req, res) {
   }
 
   try {
-    let tag = new Tag(req.body);
+    const tag = new Tag(req.body);
     tag.save();
 
     return res.status(200).json({ data: { tag } });
@@ -33,7 +39,10 @@ exports.store = async function (req, res) {
   }
 };
 
-exports.update = async function (req, res) {
+exports.update = async (req, res) => {
+  // write Log
+  logInfo.info(req);
+
   const errors = validationResult(req);
 
   if (errors.array().length) {
@@ -41,7 +50,7 @@ exports.update = async function (req, res) {
   }
 
   try {
-    let { name } = req.body;
+    const { name } = req.body;
     await Tag.findByIdAndUpdate(req.params.id, { $set: { name } });
 
     return res.status(200).json({ msg: 'update success!' });
@@ -50,13 +59,41 @@ exports.update = async function (req, res) {
   }
 };
 
-exports.delete = async function (req, res) {
+exports.delete = async (req, res) => {
   try {
+    const tag = await Tag.findByIdAndDelete(req.params.id);
 
-    return res.status(200).json({ msg: 'delete success!' });
+    return res.status(200).json({ data: tag, msg: 'delete success!' });
   } catch (err) {
+    //write Log Error
+    logError.error(err);
+
     return res.status(500).json(err);
   }
 };
 
+exports.detail = async (req, res) => {
+  try {
+    const tag = await Tag.findById(req.params.id);
 
+    return res.status(200).json({ data: tag});
+  } catch (err) {
+    //write Log Error
+    logError.error(err);
+
+    return res.status(500).json(err);
+  }
+};
+
+exports.all = async (req, res) => {
+  try {
+    const tags = await Tag.find({});
+
+    return res.status(200).json({tags});
+  } catch (err) {
+    //write Log Error
+    logError.error(err);
+
+    return res.status(500).json(err);
+  }
+};

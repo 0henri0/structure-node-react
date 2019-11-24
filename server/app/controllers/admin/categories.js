@@ -3,20 +3,26 @@
 const Category = require('../../models/category');
 const { validationResult } = require('express-validator');
 const { customMessageValidate } = require('../../support/helpers');
-const { categoryManagerByAdmin } = require('../../services/categoryService');
+const { getListCategories, updateCategory, getListCategoriesAll } = require('../../services/admin/categoryService');
+const logInfo = require('../../logger/logInfo');
+const logError = require('../../logger/logError');
 
-exports.index = async function (req, res) {
+exports.index = async (req, res) => {
   try {
-    let categories = await categoryManagerByAdmin(req);
+    const categories = await getListCategories(req);
 
     return res.status(200).json(categories);
   } catch (err) {
+    //write Log Error
+    logError.error(err);
 
     return res.status(500).json(err);
   }
 };
 
-exports.store = async function (req, res) {
+exports.store = async (req, res) => {
+  //write Log info
+  logInfo.info(req);
   const errors = validationResult(req);
 
   if (errors.array().length) {
@@ -24,17 +30,24 @@ exports.store = async function (req, res) {
   }
 
   try {
-    let category = new Category(req.body);
+    let path = req.file.path;
+    path = path.replace('public/', '');
+    const category = new Category({...req.body, image: path});
     category.save();
 
     return res.status(200).json({ data: { category } });
   } catch (err) {
+    //write Log Error
+    logError.error(err);
 
     return res.status(500).json(err);
   }
 };
 
-exports.update = async function (req, res) {
+exports.update = async (req, res) => {
+  //write Log info
+  logInfo.info(req);
+
   const errors = validationResult(req);
 
   if (errors.array().length) {
@@ -42,22 +55,52 @@ exports.update = async function (req, res) {
   }
 
   try {
-    const { name } = req.body;
-    await Category.findByIdAndUpdate(req.params.id, { $set: { name } });
+    const category = await updateCategory(req);
 
-    return res.status(200).json({ msg: 'update success!' });
+    return res.status(200).json({ msg: 'update success!', category });
   } catch (err) {
+    //write Log Error
+    logError.error(err);
+
     return res.status(500).json(err);
   }
 };
 
-exports.delete = async function (req, res) {
+exports.delete = async (req, res) => {
   try {
+    const category = await Category.findByIdAndDelete(req.params.id);
 
-    return res.status(200).json({ msg: 'delete success!' });
+    return res.status(200).json({ data: category, msg: 'delete success!' });
   } catch (err) {
+    //write Log Error
+    logError.error(err);
+
     return res.status(500).json(err);
   }
 };
 
+exports.detail = async (req, res) => {
+  try {
+    const category = await Category.findById(req.params.id);
 
+    return res.status(200).json({ data: category});
+  } catch (err) {
+    //write Log Error
+    logError.error(err);
+
+    return res.status(500).json(err);
+  }
+};
+
+exports.all = async (req, res) => {
+  try {
+    const categories = await getListCategoriesAll(req);
+
+    return res.status(200).json(categories);
+  } catch (err) {
+    //write Log Error
+    logError.error(err);
+
+    return res.status(500).json(err);
+  }
+};

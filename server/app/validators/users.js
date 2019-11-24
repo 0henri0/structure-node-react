@@ -16,4 +16,4 @@ exports.validate = (type) => {
       return [checkUserNameEdit()];
     }
   }
-}
+};

@@ -1,11 +1,12 @@
 import axios from 'axios';
 
 const DEFAULT_CONFIG = {
-  baseURL: process.env.REACT_APP_URL_API,
+  baseURL: process.env.REACT_APP_URL_API || 'http://localhost:8000',
   headers: {
     'Content-Type': 'application/json',
     'X-Requested-With': 'XMLHttpRequest',
   },
+  withCredentials: true
 };
 
 export const statusCode = {
@@ -23,9 +24,11 @@ export default class Http {
   }
 
   authenticated() {
-    const storedData = localStorage.getItem('access_token'); // get token from localstorage
+    const access_token = localStorage.getItem('access_token'); // get token from localstorage
+    const refresh_token = localStorage.getItem('refresh_token'); // get token from localstorage
     if (storedData) {
-      this.config.headers['Authorization'] = 'Bearer ' + storedData;
+      this.config.headers['jwt_authorization'] = access_token;
+      this.config.headers['jwt_authorization_refresh_token'] = refresh_token;
     }
 
     return this;
@@ -83,7 +86,7 @@ export default class Http {
         ...finalHeaderConfig
       }
     };
-  
+    
     return axios
       .request(finalConfig)
       .then(response => {
@@ -92,7 +95,8 @@ export default class Http {
       .catch(error => {
         if (error.response && error.response.status === statusCode.UNAUTHORIZED) {
           if (url != 'login') {
-            window.location.href = '/login';
+            console.log(url);
+            // window.location.href = 'login';
           }
         }
         return Promise.reject(error);

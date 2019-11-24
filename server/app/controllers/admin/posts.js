@@ -3,44 +3,58 @@
 const Post = require('../../models/post');
 const { validationResult } = require('express-validator');
 const { customMessageValidate } = require('../../support/helpers');
-const { postManagerByAdmin } = require('../../services/postService');
-exports.index = async function (req, res) {
+const { getListPost, updatePost } = require('../../services/admin/postService');
+const logInfo = require('../../logger/logInfo');
+const logError = require('../../logger/logError');
+
+exports.index = async (req, res) => {
   try {
-    let posts = await postManagerByAdmin(req);
+    const posts = await getListPost(req);
 
     return res.status(200).json(posts);
   } catch (err) {
+    //write Log Error
+    logError.error(err);
 
     return res.status(500).json(err);
   }
 };
 
-exports.detail = async function (req, res) {
+exports.detail = async (req, res) => {
   try {
-    let post = await Post.findById(req.params.id);
+    const post = await Post.findById(req.params.id);
 
     return res.status(200).json(post);
   } catch (err) {
+    //write Log Error
+    logError.error(err);
 
     return res.status(500).json(err);
   }
 };
 
-exports.store = async function (req, res) {
+exports.store = async (req, res) => {
+  // write Log
+  logInfo.info(req);
+
   const errors = validationResult(req);
 
   if (errors.array().length) {
-
     return res.status(422).json(customMessageValidate(errors));
   }
+  let path = req.file.path;
+  path = path.replace('public/', '');
 
-  let post = new Post(req.body);
+  const post = new Post({...req.body, image_title: path});
   post.save();
 
   return res.status(200).json({ data: { post } });
 };
 
-exports.update = async function (req, res) {
+exports.update = async (req, res) => {
+  // write Log
+  logInfo.info(req);
+
   const errors = validationResult(req);
 
   if (errors.array().length) {
@@ -48,22 +62,27 @@ exports.update = async function (req, res) {
   }
 
   try {
-    let params = req.body;
-    await Post.findByIdAndUpdate(req.params.id, { $set: params });
+    const params = req.body;
+    const { post } = await updatePost(req);
 
     return res.status(200).json({ data: params, msg: 'update success!' });
   } catch (err) {
+    //write Log Error
+    logError.error(err);
+
     return res.status(500).json(err);
   }
 };
 
-exports.delete = async function (req, res) {
+exports.delete = async (req, res) => {
   try {
-    let post = await Post.findByIdAndDelete(req.params.id);
+    const post = await Post.findByIdAndDelete(req.params.id);
 
     return res.status(200).json({ data: post, msg: 'delete success!' });
   } catch (err) {
+    //write Log Error
+    logError.error(err);
+
     return res.status(500).json(err);
   }
 };
-

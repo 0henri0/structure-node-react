@@ -1,14 +1,16 @@
-const withCSS = require('@zeit/next-css');
-
-/* Without CSS Modules, with PostCSS */
-// module.exports = withCSS();
+/* eslint-disable */
+const withCSS = require('@zeit/next-css')
+const withLess = require('@zeit/next-less')
 
 const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const Dotenv = require('dotenv-webpack');
 
-module.exports = withCSS({
-  webpack: config => {
+module.exports = withCSS(withLess({
+  lessLoaderOptions: {
+    javascriptEnabled: true
+  },
+
+  webpack: (config, { isServer }) => {
     config.plugins = config.plugins || [];
 
     config.plugins = [
@@ -21,6 +23,27 @@ module.exports = withCSS({
       })
     ];
 
-    return config;
+    if (isServer) {
+      const antStyles = /antd\/.*?\/style.*?/
+      const origExternals = [...config.externals]
+      config.externals = [
+        (context, request, callback) => {
+          if (request.match(antStyles)) return callback()
+          if (typeof origExternals[0] === 'function') {
+            origExternals[0](context, request, callback)
+          } else {
+            callback()
+          }
+        },
+        ...(typeof origExternals[0] === 'function' ? [] : origExternals),
+      ]
+
+      config.module.rules.unshift({
+        test: antStyles,
+        use: 'null-loader',
+      })
+    }
+
+    return config
   }
-});
+}));

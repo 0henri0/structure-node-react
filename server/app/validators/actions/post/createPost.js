@@ -9,9 +9,9 @@ let checkTitleCreate = () => {
 
 let checkContentCreate = () => {
   return check('content')
-  .not()
-  .isEmpty()
-  .withMessage('contents not empty.');
+    .not()
+    .isEmpty()
+    .withMessage('contents not empty.');
 };
 
 module.exports = {

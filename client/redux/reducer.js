@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import mommentReducer from '../modules/home/reducers';
+import statusModelCreate from '../modules/admin/reducers';
 
 const rootReducer = combineReducers({
-  momments: mommentReducer
+  adminStore: statusModelCreate
 });
 
 export default rootReducer;

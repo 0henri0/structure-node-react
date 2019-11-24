@@ -1,7 +1,7 @@
 # doc: https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
 FROM node:10-alpine
 
-# working directory of the applicati
+# working directory of the application
 WORKDIR /usr/src/app
 
 # Install app dependencies

@@ -13,19 +13,19 @@ const UserSchema = Schema(
       required: true,
       unique: true,
     },
-    rule: {
-      type: Number,
+    password_hash: {
+      type: String,
       required: true,
-      default: 0,
     },
-    password: {
+    salt: {
       type: String,
       required: true,
     },
     avatar: {
       type: String,
-      default: '',
+      default: 'img/imagegallary/1.jpg',
     },
+    refresh_token: [{ type: String, default: '' }],
     deleted_at: {
       default: '',
       type: Date,

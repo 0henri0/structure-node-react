@@ -35,7 +35,14 @@ let checkPassword = () => {
     .isEmpty()
     .withMessage('password must be required')
     .isLength({ min: 6, max: 20 })
-    .withMessage('password length must be min 6 max 20.');
+    .withMessage('password length must be min 6 max 20.')
+    .custom((value, { req }) => {
+      if (value !== req.body.passwordConfirmation) {
+        throw new Error('Password confirmation is incorrect');
+      }
+
+      return true;
+    });
 };
 
 module.exports = {

@@ -1,5 +1,8 @@
+const multer = require('multer');
+
 exports.customMessageValidate = (errors) => {
   let customErrors = { ...errors.array() };
+
   for (let i in customErrors) {
     let param = customErrors[i].param;
 
@@ -16,10 +19,16 @@ exports.customMessageValidate = (errors) => {
   return customErrors;
 };
 
-exports.updateImage = () => {
+exports.updateImage = (srcFolder) => {
+  const imagePath = 'img/categories';
 
+  const upload = multer({
+    limits: {
+      fileSize: 4 * 1024 * 1024,
+    }
+  });
 };
 
 exports.getDomain = (req) => {
   return req.protocol + '://' + req.get('host') + '/';
-}
+};

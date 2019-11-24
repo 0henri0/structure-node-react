@@ -2,56 +2,95 @@
 
 const User = require('../../models/user');
 const { validationResult } = require('express-validator');
+const { getUsers } = require('../../services/admin/userService');
 const { customMessageValidate } = require('../../support/helpers');
-const { userManagerByAdmin } = require('../../services/userService');
+const { encryptPassword, makeSalt } = require('../../services/admin/authService');
+const logInfo = require('../../logger/logInfo');
+const logError = require('../../logger/logError');
 
-exports.index = async function (req, res) {
+/**
+ * Show lists users.
+ * @param {obj} req
+ * @param {obj} res
+ */
+exports.index = async (req, res) => {
   try {
-    let users = await userManagerByAdmin(req);
+    const users = await getUsers(req);
 
     return res.status(200).json(users);
   } catch (err) {
+    //write Log Error
+    logError.error(err);
 
     return res.status(500).json(err);
   }
 };
 
-exports.detail = async function (req, res) {
+/**
+ * Show detail a user.
+ * @param {obj} req
+ * @param {obj} res
+ */
+exports.detail = async (req, res) => {
   try {
-    let user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id);
 
     return res.status(200).json(user);
   } catch (err) {
+    //write Log Error
+    logError.error(err);
 
     return res.status(500).json(err);
   }
 };
 
-exports.store = async function (req, res) {
+/**
+ * Create a user.
+ * @param {obj} req
+ * @param {obj} res
+ */
+exports.store = async (req, res) => {
+  // write Log
+  logInfo.info(req);
+
   const errors = validationResult(req);
 
   if (errors.array().length) {
     return res.status(422).json(customMessageValidate(errors));
   }
-  const { email } = req.body;
-  let user = await User.find({ email });
+  const { email, password, username } = req.body;
+  const user = await User.find({ email });
 
   if (user.length) {
 
     return res.status(422).json({ msg: 'The user already exists.' });
   }
   try {
-    user = new User(req.body);
-    user.save();
+    const salt = makeSalt();
+    const passwordHash = encryptPassword(password, salt);
+
+    const params = {
+      email: email,
+      password_hash: passwordHash
+      , username:username,
+      salt: salt
+    };
+    const userCreate = new User(params);
+    userCreate.save();
 
     return res.status(200).json({ data: { user } });
   } catch (err) {
+    //write Log Error
+    logError.error(err);
 
     return res.status(500).json(err);
   }
 };
 
-exports.update = async function (req, res) {
+exports.update = async (req, res) => {
+  // write Log
+  logInfo.info(req);
+
   const errors = validationResult(req);
 
   if (errors.array().length) {
@@ -68,3 +107,15 @@ exports.update = async function (req, res) {
   }
 };
 
+exports.delete = async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+
+    return res.status(200).json({ data: user, msg: 'delete success!' });
+  } catch (err) {
+    //write Log Error
+    logError.error(err);
+
+    return res.status(500).json(err);
+  }
+};
