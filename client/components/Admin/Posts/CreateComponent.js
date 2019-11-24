@@ -63,7 +63,7 @@ class CreateComponent extends React.Component {
           formData.append('content', this.state.textInput);
 
           await postPost(formData);
-          Router.push('/admin/posts/index');
+          // Router.push('/admin/posts/index');
         } catch (error) {
           message.error('Server Error!');
         }

@@ -3,7 +3,7 @@
 const Post = require('../../models/post');
 const { validationResult } = require('express-validator');
 const { customMessageValidate } = require('../../support/helpers');
-const { getListPost } = require('../../services/admin/postService');
+const { getListPost, updatePost } = require('../../services/admin/postService');
 const logInfo = require('../../logger/logInfo');
 const logError = require('../../logger/logError');
 
@@ -44,7 +44,7 @@ exports.store = async (req, res) => {
   }
   let path = req.file.path;
   path = path.replace('public/', '');
-  console.log(JSON.stringify({...req.body, image_title: path}));
+
   const post = new Post({...req.body, image_title: path});
   post.save();
 
@@ -63,7 +63,7 @@ exports.update = async (req, res) => {
 
   try {
     const params = req.body;
-    await Post.findByIdAndUpdate(req.params.id, { $set: params });
+    const { post } = await updatePost(req);
 
     return res.status(200).json({ data: params, msg: 'update success!' });
   } catch (err) {

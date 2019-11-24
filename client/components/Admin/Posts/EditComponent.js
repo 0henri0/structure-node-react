@@ -63,6 +63,7 @@ class EditComponent extends React.Component {
             formData.append(key, value);
           })
 
+          console.log(formData)
           formData.append('content', this.state.textInput);
 
           await editPost(Router.query.id, formData);

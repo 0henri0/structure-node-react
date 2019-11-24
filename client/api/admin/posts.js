@@ -5,10 +5,12 @@ export const getPosts = (page = 0) => {
 };
 
 export const postPost = (data) => {
+  console.log(data)
   return new Http().post(`admin/posts/create`, data);
 };
 
 export const editPost = (id, data) => {
+  console.log(data)
   return new Http().put(`admin/posts/${id}/edit`, data);
 };
 
