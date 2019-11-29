@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col } from  'react-bootstrap';
 import renderHTML from 'react-render-html';
 import '../../../../styles/blog_post_detail.less';
+import CommentPost from './CommentPost';
 
 export default function PostDetailPage({postDetail}) {
 
@@ -38,18 +39,9 @@ export default function PostDetailPage({postDetail}) {
       {renderHTML(postDetail.content+'')}
       </Col>
     </Row>
-
-      <div className="news_d_footer">
-        <a href="#"><i className="lnr lnr lnr-heart" />Lily and 4 people like this</a>
-        <a className="justify-content-center ml-auto" href="#"><i className="lnr lnr lnr-bubble" />06 Comments</a>
-        <div className="news_socail ml-auto">
-          <a href="#"><i className="fa fa-facebook" /></a>
-          <a href="#"><i className="fa fa-twitter" /></a>
-          <a href="#"><i className="fa fa-youtube-play" /></a>
-          <a href="#"><i className="fa fa-pinterest" /></a>
-          <a href="#"><i className="fa fa-rss" /></a>
-        </div>
-      </div>
+    <CommentPost />
+    
+    
     </div>
   );
 }

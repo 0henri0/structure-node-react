@@ -11,3 +11,11 @@ export const getDetail = (id) => {
 export const getPopularPosts = () => {
   return new Http().get(`posts/popularPosts`);
 };
+
+export const getComment = (id) => {
+  return new Http().post(`posts/comment/${id}`);
+}
+
+export const postComment = (data) => {
+  return new Http().post(`posts/comment`, data);
+}
