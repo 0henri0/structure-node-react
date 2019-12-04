@@ -1,8 +1,8 @@
 
 import React from 'react';
 import { Table, Avatar, Icon } from 'antd';
-import LayoutAdmin from '../../components/admin/layouts/layout';
-import { getUsers } from '../../api/admin/users';
+import LayoutAdmin from '../../../components/admin/layouts/layout';
+import { getUsers } from '../../../api/admin/users';
 
 const columns = [
   {
@@ -39,7 +39,7 @@ const columns = [
   }
 ];
 
-class Posts extends React.Component {
+class index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -96,4 +96,4 @@ class Posts extends React.Component {
   }
 }
 
-export default Posts;
+export default index;

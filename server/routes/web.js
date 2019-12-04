@@ -30,6 +30,9 @@ router.get('/posts', posts.lastestPosts);
 router.get('/posts/popularPosts', posts.popularPosts);
 router.get('/posts/:id', posts.detail);
 
+/*-------------------------------comment----------------------------------- */
+router.post('/posts/:idPost/comment', posts.postComment);
+
 /*-------------------------------category----------------------------- */
 router.get('/categories/categoriesRightSiderBar', categories.categoriesRightSiderBar);
 

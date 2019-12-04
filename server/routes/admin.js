@@ -25,10 +25,10 @@ router.post('/login', auth.login);
 router.post('/refresh_token', auth.refreshToken);
 
 /*routes */
-/*-------------------------------middlewave_common------------------------- */
-router.use((req, res, next) => {
-  checkAdmin(req, res, next);
-});
+// /*-------------------------------middlewave_common------------------------- */
+// router.use((req, res, next) => {
+//   checkAdmin(req, res, next);
+// });
 
 /*-------------------------------admins------------------------------------ */
 router.post('/admins/create', adminsValidate.validate('register'), admin.store);

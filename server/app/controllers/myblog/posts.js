@@ -44,3 +44,25 @@ exports.popularPosts = async function(req, res) {
     return res.status(500).json(err);
   }
 }
+
+
+exports.postComment = async function(req, res) {
+  try {
+
+    let comment = {
+      userId: req.body.userId,
+      body: req.body.body
+    };
+
+    let post = await Post.findById(req.params.idPost);
+    post.comments.push({...comment});
+    post.save();
+
+    return res.status(200).json(post.comments);
+  } catch (err) {
+    //write Log error
+    logError.error(err);
+
+    return res.status(500).json(err);
+  }
+}

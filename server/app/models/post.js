@@ -7,7 +7,7 @@ const CommentPost = Schema(
       type: String,
       required: true
     },
-    user: {
+    userId: {
       type: Schema.ObjectId,
       ref: 'User'
     },
@@ -25,7 +25,7 @@ const RatePost = Schema(
     rate: {
       type: Number,
     },
-    user: {
+    userId: {
       type: Schema.ObjectId,
       ref: 'User'
     }

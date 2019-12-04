@@ -39,7 +39,7 @@ export default function PostDetailPage({postDetail}) {
       {renderHTML(postDetail.content+'')}
       </Col>
     </Row>
-    <CommentPost />
+    <CommentPost comments='' />
     
     
     </div>
