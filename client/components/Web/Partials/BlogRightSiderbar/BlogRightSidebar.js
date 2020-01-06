@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Icon } from 'antd';
+import { Icon, Input } from 'antd';
 import { getPopularPosts } from '../../../../api/posts';
 import { getTagsRightsiderBar } from '../../../../api/tags';
 import { getCategoriesRightSiderBar } from '../../../../api/categories';
@@ -7,6 +7,8 @@ import PopularPosts from './PopularPosts';
 import Categories from './Categories';
 import Tags from './Tags';
 import '../../../../styles/blog_right_sidebar.less';
+const { Search } = Input;
+import Router from 'next/router'
 
 const BlogRightSidebar = () => {
   const [posts, setPosts] = useState([]);
@@ -24,7 +26,6 @@ const BlogRightSidebar = () => {
       setPosts(data.posts);
       setTags(data.tags);
       setCategories(data.categories);
-      console.log(data);
   }
   useEffect(() => {
     fetchMyAPI();
@@ -33,12 +34,15 @@ const BlogRightSidebar = () => {
   return (
     <div className="blog_right_sidebar">
       <aside className="single_sidebar_widget search_widget">
-        <div className="input-group">
-          <input type="text" className="form-control" placeholder="Search Posts" />
-          <span className="input-group-btn">
-            <button className="btn btn-default" type="button"><Icon type="search" /></button>
-          </span>
-        </div>
+      <Search
+        placeholder="input search text"
+        onSearch={value => Router.push({
+          pathname: '/search',
+          'as':'/search',
+          query: { key: value }})
+        }
+        
+      />
         <div className="br" />
       </aside>
 

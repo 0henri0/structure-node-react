@@ -13,9 +13,14 @@ export const getPopularPosts = () => {
 };
 
 export const getComment = (id) => {
-  return new Http().post(`posts/comment/${id}`);
+  return new Http().get(`posts/${id}/comments`);
 }
 
-export const postComment = (data) => {
-  return new Http().post(`posts/comment`, data);
+export const postComment = (idPost, data) => {
+  return new Http().post(`posts/${idPost}/comments`, data);
 }
+
+export const getSearchPosts = (value) => {
+  return new Http().get(`search/?key=${value}`);
+}
+

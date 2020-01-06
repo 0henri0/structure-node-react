@@ -6,9 +6,9 @@ import { getDetail } from '../../../api/posts';
 import '../../../styles/detail_post.less';
 
 export default function HomePage({ idPost }) {
-  console.log(idPost);
+  
   const [postDetail, setpostDetail] = useState([]);
-
+ 
   async function fetchMyAPI() {
     let result = await getDetail(idPost);
     let post = await result.data;
@@ -22,7 +22,7 @@ export default function HomePage({ idPost }) {
     <Container>
       <Row>
         <Col lg={8} className="content_detail_post">
-        <PostDetailPage postDetail={postDetail}/>
+        <PostDetailPage postDetail={postDetail} idPost = {idPost}/>
         </Col>
         <Col lg={4}>
           <BlogRightSidebar />

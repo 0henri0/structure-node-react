@@ -1,5 +1,7 @@
-import { Comment, Avatar, Form, Button, List, Input } from 'antd';
+import { Comment, Avatar, Form, Button, List, Input, message } from 'antd';
 import moment from 'moment';
+import { getComment, postComment } from '../../../../api/posts';
+import Cookies from 'js-cookie';
 
 const { TextArea } = Input;
 
@@ -25,12 +27,27 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
   </div>
 );
 
+
 class CommentPost extends React.Component {
   state = {
     comments: [],
     submitting: false,
     value: '',
   };
+
+  fetch = (idPost) => {
+    getComment(idPost)
+      .then(res => {
+        this.setState({ comments : res.data });
+      })
+      .catch(error => {
+        return error;
+      });
+  };
+
+  componentDidMount() {
+    this.fetch(this.props.idPost);
+  }
 
   handleSubmit = () => {
     if (!this.state.value) {
@@ -46,16 +63,24 @@ class CommentPost extends React.Component {
         submitting: false,
         value: '',
         comments: [
+          ...this.state.comments,
           {
-            author: 'Han Solo',
-            avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+            author: 'Nguyen Thai ',
+            avatar: 'uploads/images/avatar1.jpg',
             content: <p>{this.state.value}</p>,
             datetime: moment().fromNow(),
-          },
-          ...this.state.comments,
+          }
         ],
       });
-    }, 1000);
+    }, 500);
+    let data = {
+      userId:'5d9d554b2e9bf41adb4120c2',
+      body: this.state.value
+    }
+     postComment(this.props.idPost, data).then(res => {
+      message.success('comment thành công!')
+     });
+
   };
 
   handleChange = e => {
@@ -65,6 +90,7 @@ class CommentPost extends React.Component {
   };
 
   render() {
+    console.log(this.state.userInfo);
     const { comments, submitting, value } = this.state;
 
     return (
@@ -73,8 +99,8 @@ class CommentPost extends React.Component {
         <Comment
           avatar={
             <Avatar
-              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-              alt="Han Solo"
+              src="uploads/images/avatar1.jpg"
+              alt="Nguyen Thai"
             />
           }
           content={

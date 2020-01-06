@@ -4,7 +4,7 @@ import renderHTML from 'react-render-html';
 import '../../../../styles/blog_post_detail.less';
 import CommentPost from './CommentPost';
 
-export default function PostDetailPage({postDetail}) {
+export default function PostDetailPage({postDetail, idPost}) {
 
   return (
     <div className="main_blog_details">
@@ -39,9 +39,7 @@ export default function PostDetailPage({postDetail}) {
       {renderHTML(postDetail.content+'')}
       </Col>
     </Row>
-    <CommentPost comments='' />
-    
-    
+    <CommentPost comments={ postDetail.comments } idPost={idPost} />
     </div>
   );
 }

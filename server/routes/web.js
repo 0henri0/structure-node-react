@@ -29,9 +29,13 @@ router.put('/profile/:id/edit', users.update);
 router.get('/posts', posts.lastestPosts);
 router.get('/posts/popularPosts', posts.popularPosts);
 router.get('/posts/:id', posts.detail);
+router.get('/search', posts.search);
+router.get('/category/:id/posts', posts.getPostByCategory);
+router.get('/tag/:id/posts', posts.getPostByTag);
 
 /*-------------------------------comment----------------------------------- */
-router.post('/posts/:idPost/comment', posts.postComment);
+router.get('/posts/:idPost/comments', posts.getComment);
+router.post('/posts/:idPost/comments', posts.postComment);
 
 /*-------------------------------comment----------------------------------- */
 router.post('/posts/:idPost/rate', posts.postRate);
