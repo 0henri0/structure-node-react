@@ -9,6 +9,7 @@ const app = require('../../../../config/app');
  */
 exports.login = async (req, res) => {
   try {
+
     const { email, password } = req.body;
     const user = await User.findOne({ email: email });
     if (!user) {
@@ -26,6 +27,7 @@ exports.login = async (req, res) => {
     const {username, avatar} = user;
     const cookieOptions = app.cookieOptions;
     const dataResponse = {
+      _id : user.id,
       ...apiToken,
       username,
       avatar
@@ -33,6 +35,7 @@ exports.login = async (req, res) => {
 
     return res.status(200).cookie('userInfo', dataResponse, cookieOptions).json({
       msg: 'success',
+      _id : user.id,
       ...apiToken,
       username,
       avatar

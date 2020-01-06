@@ -33,6 +33,9 @@ router.get('/posts/:id', posts.detail);
 /*-------------------------------comment----------------------------------- */
 router.post('/posts/:idPost/comment', posts.postComment);
 
+/*-------------------------------comment----------------------------------- */
+router.post('/posts/:idPost/rate', posts.postRate);
+
 /*-------------------------------category----------------------------- */
 router.get('/categories/categoriesRightSiderBar', categories.categoriesRightSiderBar);
 

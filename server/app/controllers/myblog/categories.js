@@ -1,6 +1,5 @@
 'use strict';
 
-const Category = require('../../models/category');
 const categoryService = require('../../services/myblog/categoryService');
 const logError = require('../../logger/logError');
 
