@@ -47,9 +47,8 @@ exports.popularPosts = async function(req, res) {
 
 exports.postComment = async function(req, res) {
   try {
-
     let comment = {
-      userId: req.body.userId ,
+      userId: req.signedCookies.userInfo._id,
       body: req.body.body
     };
 
@@ -70,15 +69,15 @@ exports.postRate = async function(req, res) {
   try {
 
     let rate = {
-      userId: req.body.userId ,
-      body: req.body.body
+      userId: req.signedCookies.userInfo._id,
+      rate: req.body.rate
     };
 
     let post = await Post.findById(req.params.idPost);
-    post.comments.push({...comment});
+    post.rates.push({...rate});
     post.save();
 
-    return res.status(200).json(post.comments);
+    return res.status(200).json(post.rates);
   } catch (err) {
     //write Log error
     logError.error(err);
