@@ -36,7 +36,7 @@ exports.updatePost = async (req) => {
     let post = await Post.findById(req.params.id);
     let pathOld = post.image_title;
 
-    let pathNew = req.file.path.replace('public/', '');
+    let pathNew = req.file.path.replace('public', '');
 
     if (pathOld) {
       fs.unlink('public/' + pathOld, function(){

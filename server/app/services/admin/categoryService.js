@@ -30,7 +30,7 @@ exports.updateCategory = async (req) => {
   try {
     let category = await Category.findById(req.params.id);
     let pathOld = category.image;
-    let pathNew = req.file.path.replace('public/', '');
+    let pathNew = req.file.path.replace('public', '');
 
     if (pathOld) {
       fs.unlink('public/' + pathOld, function(){

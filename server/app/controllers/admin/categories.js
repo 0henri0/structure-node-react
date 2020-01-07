@@ -31,7 +31,7 @@ exports.store = async (req, res) => {
 
   try {
     let path = req.file.path;
-    path = path.replace('public/', '');
+    path = path.replace('public', '');
     const category = new Category({...req.body, image: path});
     category.save();
 
