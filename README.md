@@ -39,7 +39,7 @@ Simply run `npm test` and all your tests in the `test/` directory will be run.
 
 # Contributors:
 
-<table><tr><td align="center"><a href="https://github.com/bkfa"><img src="https://avatars0.githubusercontent.com/u/37947030" width="80px;" alt="BKFA"/><br /><sub><b>BKFA Team</b></sub></a></td><td align="center"><a href="https://github.com/0henri0"><img src="https://avatars2.githubusercontent.com/u/35694649" width="80px;" alt="0henri0"/><br /><sub><b>Thai NV</b></sub</td><td align="center"><a href="http://github.com/trantrongbinh"><img src="https://avatars2.githubusercontent.com/u/27794077" width="80px;" alt="trantrongbinh"/><br /><sub><b>Binh TT</b></sub></a></td><td align="center"><a href="https://github.com/damminhtien"><img src="https://avatars0.githubusercontent.com/u/25586408" width="80px;" alt="damminhtien"/><br /><sub><b>Tien DZ</b></sub></a></td></tr></table>
+<table><tr><td align="center"><a href="https://github.com/bkfa"><img src="https://avatars0.githubusercontent.com/u/37947030" width="80px;" alt="BKFA"/><br /><sub><b>BKFA Team</b></sub></a></td><td align="center"><a href="https://github.com/0henri0"><img src="https://avatars2.githubusercontent.com/u/35694649" width="80px;" alt="0henri0"/><br /><sub><b>Thai NV</b></sub</td></tr></table>
 
 # Technology
 **Frontend**:
